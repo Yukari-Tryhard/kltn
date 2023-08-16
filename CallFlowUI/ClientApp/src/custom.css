@@ -1,0 +1,34 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.aside-text::after{
+  position: absolute;
+  bottom: -1rem;
+  left: 3px;
+  width: 0;
+  height: 0;
+  border-left: calc(2rem - 3px) solid transparent;
+  border-bottom: 0 solid transparent;
+  border-right: 0 solid transparent;
+  border-top: 1rem solid transparent;
+  border-top-color: var(--color-dark);
+  content: "";
+}
