@@ -9,11 +9,17 @@ const AppRoutes = () => {
   // Check if AccessToken is valid
 
   
-  let routes = [{
+  let routes = [
+    {
     index: true,
+    path: '/signin',
     element: <SignIn />,
   },
-
+  {
+    index: true,
+    path: '/signup',
+    element: <SignIn />,
+  },
   {
     path: '/*',
     element: <ProtectedRoute/>,

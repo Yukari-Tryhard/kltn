@@ -2,22 +2,27 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import './output.css';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { store } from './store/store'
 import { Provider } from 'react-redux'
+import { PrimeReactProvider } from 'primereact/api';
+//theme
+import "primereact/resources/themes/lara-light-blue/theme.css";     
+//core
+import "primereact/resources/primereact.min.css";    
+import 'primeicons/primeicons.css';
 
+        
 const App = () => {
 
 
   return (
+    <PrimeReactProvider>
     <Provider store={store}>
-      <DndProvider backend={HTML5Backend}>
         <BrowserRouter>
           <AppRoutes></AppRoutes>
         </BrowserRouter>
-      </DndProvider>
     </Provider>
+    </PrimeReactProvider>
   );
 
 }
