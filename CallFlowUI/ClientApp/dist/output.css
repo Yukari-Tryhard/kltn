@@ -899,6 +899,10 @@ video {
   width: 40%;
 }
 
+.w-\[100vw\] {
+  width: 100vw;
+}
+
 .min-w-\[0\] {
   min-width: 0;
 }
@@ -1278,6 +1282,26 @@ video {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .font-bold {
