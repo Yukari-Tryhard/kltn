@@ -4,6 +4,7 @@ import SignIn from "./pages/signin/SignIn";
 import SignUp from "./pages/signup/SignUp";
 import NotFoundPage from "./pages/notfound/NotFoundPage";
 import ProtectedRoute from "./common/auth/ProtectedRoute";
+import ResetPasswordPage from "./pages/resetpassword/ResetPasswordPage";
 
 const AppRoutes = () => {
 
@@ -24,6 +25,10 @@ const AppRoutes = () => {
   {
     path: '/*',
     element: <NotFoundPage/>,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPasswordPage/>,
   },
   {
     path: '/app',
