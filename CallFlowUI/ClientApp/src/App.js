@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 
 import { DndProvider } from 'react-dnd';
@@ -20,6 +20,16 @@ import { ProSidebarProvider } from 'react-pro-sidebar';
 
 import './output.css';
 
+import { PrimeReactProvider } from 'primereact/api';
+
+//theme
+import "primereact/resources/themes/lara-light-blue/theme.css";     
+
+//core
+import "primereact/resources/primereact.min.css";    
+import 'primeicons/primeicons.css';
+
+        
 const App = () => {
     const { ToastContainer } = createStandaloneToast();
     const theme = extendTheme({

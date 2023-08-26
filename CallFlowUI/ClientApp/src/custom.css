@@ -2,6 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
+body {
+  font-family: var(--font-family);
+}                                        
+      
+
 /* Provide sufficient contrast against white background */
 a {
     color: #0366d6;
