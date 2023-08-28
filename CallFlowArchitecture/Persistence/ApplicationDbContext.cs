@@ -1,5 +1,5 @@
-﻿using CallFlowArchitecture.Persistence;
-using Duende.IdentityServer.EntityFramework.Options;
+﻿using CallFlowApplication.Entities;
+using CallFlowArchitecture.Persistence;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +8,9 @@ using System.Reflection;
 
 namespace CallFlowArchitecture
 {
-    public class KLTNContext : ApiAuthorizationDbContext<IdentityUser>, IApplicationDbContext
+    public class KLTNContext : DbContext, IApplicationDbContext
     {
-        public KLTNContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        public KLTNContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -19,7 +19,7 @@ namespace CallFlowArchitecture
         //{
         //}
 
-        //public DbSet<CallFlowUser> CallFlowUsers { get; set; }
+        public DbSet<CallFlowUser> CallFlowUsers{ get; set; }
         //public DbSet<LinkAccount> LinkAccounts { get; set; }
         //public DbSet<Project> Projects { get; set; }
         //public DbSet<ConfigGenerator> ConfigGenerators { get; set; }
