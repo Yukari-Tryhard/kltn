@@ -49,7 +49,6 @@
     <Folder Include="ClientApp\src\pages\signin\" />
     <Folder Include="ClientApp\src\pages\signup\" />
     <Folder Include="Common\" />
-    <Folder Include="CQRS\Commands\" />
     <Folder Include="CQRS\EventHandlers\" />
   </ItemGroup>
 
