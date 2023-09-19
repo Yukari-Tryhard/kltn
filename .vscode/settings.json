@@ -1,0 +1,25 @@
+{
+	"dotnet.defaultSolution": "KLTN.sln",
+	"cSpell.words": [
+		"aspnetcore",
+		"cacheable",
+		"callflow",
+		"chakra",
+		"contenteditable",
+		"dompurify",
+		"echarts",
+		"flowtype",
+		"formik",
+		"kltn",
+		"oidc",
+		"precaching",
+		"prestart",
+		"primeflex",
+		"primeicons",
+		"primereact",
+		"reduxjs",
+		"scena",
+		"tailwindcss",
+		"toastify"
+	]
+}
