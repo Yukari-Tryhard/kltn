@@ -1,11 +1,11 @@
+// Core
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
-
+import { BrowserRouter } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { store } from './store/store';
 import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 // React Query
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -17,19 +17,16 @@ import { createStandaloneToast } from '@chakra-ui/toast';
 
 // Decoration
 import { ProSidebarProvider } from 'react-pro-sidebar';
-
+import { PrimeReactProvider } from 'primereact/api';
 import './output.css';
 
-import { PrimeReactProvider } from 'primereact/api';
+// Theme
+import 'primereact/resources/themes/lara-light-blue/theme.css';
 
-//theme
-import "primereact/resources/themes/lara-light-blue/theme.css";     
-
-//core
-import "primereact/resources/primereact.min.css";    
+// PrimeReact
+import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
-        
 const App = () => {
     const { ToastContainer } = createStandaloneToast();
     const theme = extendTheme({
@@ -54,19 +51,21 @@ const App = () => {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <Provider store={store}>
-                <ChakraProvider theme={theme}>
-                    <ProSidebarProvider>
-                        <DndProvider backend={HTML5Backend}>
-                            <BrowserRouter>
-                                <ToastContainer />
-                                <AppRoutes></AppRoutes>
-                            </BrowserRouter>
-                        </DndProvider>
-                    </ProSidebarProvider>
-                </ChakraProvider>
-            </Provider>
-            <ReactQueryDevtools initialIsOpen={false} />
+            <PrimeReactProvider>
+                <Provider store={store}>
+                    <ChakraProvider theme={theme}>
+                        <ProSidebarProvider>
+                            <DndProvider backend={HTML5Backend}>
+                                <BrowserRouter>
+                                    <ToastContainer />
+                                    <AppRoutes></AppRoutes>
+                                </BrowserRouter>
+                            </DndProvider>
+                        </ProSidebarProvider>
+                    </ChakraProvider>
+                </Provider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </PrimeReactProvider>
         </QueryClientProvider>
     );
 };
