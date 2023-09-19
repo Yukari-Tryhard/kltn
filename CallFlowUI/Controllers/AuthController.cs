@@ -1,4 +1,5 @@
-﻿using CallFlowUI.CQRS.Queries.Authentication;
+﻿using CallFlowUI.CQRS.Commands.Authentication.SignUpWithEmailCommand;
+using CallFlowUI.CQRS.Queries.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,13 @@ namespace CallFlowUI.Controllers
         [HttpPost]
         [Route("verify")]
         public async Task<ActionResult> Verify(VerifyTokenQuery query)
+        {
+            return await Mediator.Send(query);
+        }
+
+        [HttpPost]
+        [Route("sign-up-email")]
+        public async Task<ActionResult> SignUpWithEmail(SignUpWithEmailCommand query)
         {
             return await Mediator.Send(query);
         }
