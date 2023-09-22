@@ -7,7 +7,7 @@ import { DiAsterisk } from 'react-icons/di';
 import { IoIosSettings } from 'react-icons/io';
 import { BiSolidDashboard } from 'react-icons/bi';
 
-const iconSize = '20px';
+const iconSize = '18px';
 
 export const SideBarData = [
     {
@@ -45,7 +45,7 @@ export const SideBarData = [
     {
         title: 'Flow Design',
         url: 'flow-design',
-        icon: <SiDialogflow fontSize="19px" />
+        icon: <SiDialogflow fontSize={iconSize} />
     },
     {
         title: 'Setting',
