@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import CryptoJS from 'crypto-js';
-import { SideBarData } from '../data/SideBarData';
+import routes from '../routes/AppSidebar';
 
 const isTokenExpired = (token) => {
 	if (token) {
@@ -110,7 +110,7 @@ const getUserRole = () => {
 
 const getScreenAuthorization = (userRole, pathname) => {
 	let authorizeArray = [];
-	SideBarData.map((parentItem) => {
+	routes.map((parentItem) => {
 		if (parentItem?.children) {
 			parentItem?.children.map((childrenItem) => {
 				if (childrenItem?.roleCanAccess) {
