@@ -7,7 +7,7 @@ import Header from './Header';
 import SuspenseContent from './SuspenseContent';
 import routes from '../routes/ProtectedRoutes';
 
-const Page404 = lazy(() => import('../pages/notfound/NotFoundPage'));
+const Page404 = lazy(() => import('../pages/error/NotFoundPage'));
 
 function PageContent() {
 	const mainContentRef = useRef(null);
@@ -30,6 +30,7 @@ function PageContent() {
 						{routes.map((route, key) => {
 							return <Route key={key} exact={true} path={`${route.path}`} element={<route.component />} />;
 						})}
+
 						{/* Redirecting unknown url to 404 page */}
 						<Route path="*" element={<Page404 />} />
 					</Routes>

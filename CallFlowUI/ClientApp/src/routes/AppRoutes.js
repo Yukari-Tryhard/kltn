@@ -3,9 +3,9 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 
 // Importing pages
 const Layout = lazy(() => import('./../containers/Layout'));
-const Login = lazy(() => import('./../pages/signin/SignIn'));
+const Login = lazy(() => import('../pages/auth/SignIn'));
+const Register = lazy(() => import('./../pages/auth/SignUp'));
 const ForgotPassword = lazy(() => import('./../pages/resetpassword/ResetPasswordPage'));
-const Register = lazy(() => import('./../pages/signup/SignUp'));
 
 const AppRoutes = () => {
 	return (

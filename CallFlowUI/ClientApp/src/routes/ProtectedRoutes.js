@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
-const Welcome = lazy(() => import('./../pages/protected/Welcome'));
-const ProfileSettings = lazy(() => import('./../pages/protected/ProfileSettings'));
+const Welcome = lazy(() => import('./../pages/home/Welcome'));
+const ProfileSettings = lazy(() => import('./../pages/home/ProfileSettings'));
 
 const routes = [
 	{
