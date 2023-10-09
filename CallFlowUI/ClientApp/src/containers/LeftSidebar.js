@@ -128,7 +128,7 @@ function LeftSidebar() {
 										parentItem.children.map((childItem, index) => {
 											if (childItem?.roleCanAccess) {
 												return (
-													<MenuItem active={location.pathname === `/${parentItem.url}/${childItem.url}` ? true : false} key={index} component={<NavLink to={`${parentItem.url}/${childItem.url}`} />}>
+													<MenuItem active={location.pathname === `/${parentItem.url}/${childItem.url}` ? true : false} key={index} component={<NavLink to={`${childItem.path}`} />}>
 														<Flex alignItems="center">
 															<Box flex="20%" display="grid" placeItems="start">
 																{childItem.icon}
@@ -141,7 +141,7 @@ function LeftSidebar() {
 												);
 											} else {
 												return (
-													<MenuItem active={location.pathname === `/${parentItem.url}/${childItem.url}` ? true : false} key={index} component={<NavLink to={`${parentItem.url}/${childItem.url}`} />}>
+													<MenuItem active={location.pathname === `/${childItem.path}` ? true : false} key={index} component={<NavLink to={`${childItem.path}`} />}>
 														<Flex alignItems="center">
 															<Box flex="20%" display="grid" placeItems="start">
 																{childItem.icon}
@@ -158,7 +158,7 @@ function LeftSidebar() {
 							);
 						} else {
 							return (
-								<MenuItem active={location.pathname === `/${parentItem.url}` ? true : false} key={index} component={<NavLink to={parentItem.url} />}>
+								<MenuItem active={location.pathname === `app/${parentItem.path}` ? true : false} key={index} component={<NavLink to={parentItem.path} />}>
 									<Flex alignItems="center" justifyContent="start">
 										<Box flex="20%" display="grid" placeItems="start">
 											{parentItem.icon}

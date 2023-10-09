@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../../store/common/HeaderSlice';
-import ProfileSettings from '../../common/features/settings/ProfileSettings';
+import AccTable from '../../common/features/accounts/AccTable';
 
 function InternalPage() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(setPageTitle({ title: 'Settings' }));
+		dispatch(setPageTitle({ title: 'Accounts' }));
 	}, [dispatch]);
 
-	return <ProfileSettings />;
+	return <AccTable />;
 }
 
 export default InternalPage;

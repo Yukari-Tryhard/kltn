@@ -1,5 +1,6 @@
 import { URL_ENCODE_SECRET } from '../env';
 
+// Function to get the secret key
 async function getKey(secretKey) {
 	const encoder = new TextEncoder();
 
@@ -16,6 +17,7 @@ async function getKey(secretKey) {
 	return secretKeyBuffer;
 }
 
+// Function to convert file to base64 format
 const toBase64 = (file) =>
 	new Promise((resolve, reject) => {
 		const reader = new FileReader();

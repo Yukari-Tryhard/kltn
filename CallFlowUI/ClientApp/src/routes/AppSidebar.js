@@ -11,12 +11,12 @@ const submenuIconClasses = `h-4 w-4`;
 
 const routes = [
 	{
-		path: '/app/dashboard',
+		path: 'dashboard',
 		name: 'Dashboard',
 		icon: <BiSolidDashboard className={iconClasses} />
 	},
 	{
-		path: '/app/account',
+		path: 'accounts',
 		name: 'Account',
 		icon: <MdSupervisorAccount className={iconClasses} />
 	},
@@ -25,12 +25,12 @@ const routes = [
 		icon: <AiFillPhone className={iconClasses} />,
 		children: [
 			{
-				path: '/app/number-details',
+				path: 'number-details',
 				name: 'Details',
 				icon: <SiMagento className={submenuIconClasses} />
 			},
 			{
-				path: '/app/number-assigning',
+				path: 'number-assigning',
 				name: 'Assigning',
 				icon: <MdAssignmentInd className={submenuIconClasses} />
 			}
@@ -39,19 +39,19 @@ const routes = [
 	{
 		name: 'Flow Design',
 		icon: <SiDialogflow className={iconClasses} />,
-		path: '/app/flow-design'
+		path: 'flow-design'
 	},
 	{
 		name: 'Setting',
 		icon: <IoIosSettings className={iconClasses} />,
 		children: [
 			{
-				path: '/app/asterisk',
+				path: 'asterisk',
 				name: 'Asterisk',
 				icon: <DiAsterisk className={submenuIconClasses} />
 			},
 			{
-				path: '/app/service',
+				path: 'service',
 				name: 'Service',
 				icon: <MdMiscellaneousServices className={submenuIconClasses} />
 			}
