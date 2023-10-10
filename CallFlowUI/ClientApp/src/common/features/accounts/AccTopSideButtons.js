@@ -32,32 +32,10 @@ const AccTopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
 			{/* Searchbar */}
 			<SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
 
-			{/* Filter button */}
-			{filterParam !== '' && (
-				<button onClick={() => removeAppliedFilter()} className="btn btn-xs mr-2 btn-active btn-ghost normal-case">
-					{filterParam}
-					<XMarkIcon className="w-4 ml-2" />
-				</button>
-			)}
-			<div className="dropdown dropdown-bottom dropdown-end">
-				<label tabIndex={0} className="btn btn-sm btn-outline">
-					<FunnelIcon className="w-5 mr-2" />
-					Filter
-				</label>
-				<ul tabIndex={1} className="dropdown-content menu p-2 text-sm shadow bg-base-100 rounded-box w-52">
-					{locationFilters.map((l, k) => {
-						return (
-							<li key={k}>
-								<button onClick={() => showFiltersAndApply(l)}>{l}</button>
-							</li>
-						);
-					})}
-					<div className="divider mt-0 mb-0"></div>
-					<li>
-						<button onClick={() => removeAppliedFilter()}>Remove Filter</button>
-					</li>
-				</ul>
-			</div>
+			{/* Add new button */}
+			
+
+			
 		</div>
 	);
 };

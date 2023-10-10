@@ -5,6 +5,7 @@ import { showNotification } from '../../../store/common/HeaderSlice';
 import TitleCard from '../../components/cards/TitleCard';
 import AccTopSideButtons from './AccTopSideButtons';
 import { RECENT_TRANSACTIONS } from '../../../helper/DummyData';
+import DynamicTable from '../../components/tables/DynamicTable';
 
 function AccTable() {
 	const [trans, setTrans] = useState(RECENT_TRANSACTIONS);
