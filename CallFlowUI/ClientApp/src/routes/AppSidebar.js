@@ -4,7 +4,7 @@ import { SiMagento, SiDialogflow } from 'react-icons/si';
 import { MdMiscellaneousServices, MdSupervisorAccount } from 'react-icons/md';
 import { DiAsterisk } from 'react-icons/di';
 import { IoIosSettings } from 'react-icons/io';
-import { BiSolidDashboard } from 'react-icons/bi';
+import { BiSolidDashboard, BiSolidReport } from 'react-icons/bi';
 
 const iconClasses = `h-5 w-5`;
 const submenuIconClasses = `h-4 w-4`;
@@ -37,9 +37,14 @@ const routes = [
 		]
 	},
 	{
+		path: 'flow-design',
 		name: 'Flow Design',
-		icon: <SiDialogflow className={iconClasses} />,
-		path: 'flow-design'
+		icon: <SiDialogflow className={iconClasses} />
+	},
+	{
+		path: 'report',
+		name: 'Report',
+		icon: <BiSolidReport className={iconClasses} />
 	},
 	{
 		name: 'Setting',

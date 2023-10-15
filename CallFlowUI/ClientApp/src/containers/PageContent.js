@@ -7,7 +7,7 @@ import Header from './Header';
 import SuspenseContent from './SuspenseContent';
 import routes from '../routes/ProtectedRoutes';
 
-const Page404 = lazy(() => import('../pages/error/NotFoundPage'));
+const Page404 = lazy(() => import('../pages/error/NotFound'));
 
 function PageContent() {
 	const mainContentRef = useRef(null);
