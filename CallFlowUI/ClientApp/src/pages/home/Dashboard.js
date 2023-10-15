@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../../store/common/HeaderSlice';
-import Dashboard from '../../features/dashboard/index';
+import Dashboard from '../../common/features/dashboard/Dashboard';
 
 function InternalPage() {
 	const dispatch = useDispatch();
