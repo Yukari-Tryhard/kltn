@@ -1,10 +1,11 @@
-import { MdAssignmentInd } from 'react-icons/md';
 import { AiFillPhone } from 'react-icons/ai';
-import { SiMagento, SiDialogflow } from 'react-icons/si';
+import { SiDialogflow } from 'react-icons/si';
 import { MdMiscellaneousServices, MdSupervisorAccount } from 'react-icons/md';
 import { DiAsterisk } from 'react-icons/di';
 import { IoIosSettings } from 'react-icons/io';
 import { BiSolidDashboard, BiSolidReport } from 'react-icons/bi';
+import { AiOutlineLink } from 'react-icons/ai';
+import { FiPhoneCall } from 'react-icons/fi';
 
 const iconClasses = `h-5 w-5`;
 const submenuIconClasses = `h-4 w-4`;
@@ -25,14 +26,14 @@ const routes = [
 		icon: <AiFillPhone className={iconClasses} />,
 		children: [
 			{
-				path: 'number-details',
-				name: 'Details',
-				icon: <SiMagento className={submenuIconClasses} />
+				path: 'trunk',
+				name: 'Trunk',
+				icon: <AiOutlineLink className={submenuIconClasses} />
 			},
 			{
-				path: 'number-assigning',
-				name: 'Assigning',
-				icon: <MdAssignmentInd className={submenuIconClasses} />
+				path: 'phone-number',
+				name: 'Phone Number',
+				icon: <FiPhoneCall className={submenuIconClasses} />
 			}
 		]
 	},
@@ -47,20 +48,9 @@ const routes = [
 		icon: <BiSolidReport className={iconClasses} />
 	},
 	{
-		name: 'Setting',
-		icon: <IoIosSettings className={iconClasses} />,
-		children: [
-			{
-				path: 'asterisk',
-				name: 'Asterisk',
-				icon: <DiAsterisk className={submenuIconClasses} />
-			},
-			{
-				path: 'service',
-				name: 'Service',
-				icon: <MdMiscellaneousServices className={submenuIconClasses} />
-			}
-		]
+		path: 'settings',
+		name: 'Settings',
+		icon: <IoIosSettings className={iconClasses} />
 	}
 ];
 

@@ -4,6 +4,7 @@ const Welcome = lazy(() => import('./../pages/home/Welcome'));
 const ProfileSettings = lazy(() => import('./../pages/home/ProfileSettings'));
 const Accounts = lazy(() => import('./../pages/home/Accounts'));
 const Dashboard = lazy(() => import('./../pages/home/Dashboard'));
+const Settings = lazy(() => import('./../pages/home/Settings'));
 
 const routes = [
 	{
@@ -21,6 +22,10 @@ const routes = [
 	{
 		path: '/accounts',
 		component: Accounts
+	},
+	{
+		path: '/settings',
+		component: Settings
 	}
 ];
 
