@@ -38,11 +38,6 @@ const routes = [
 		]
 	},
 	{
-		path: 'studio',
-		name: 'Studio',
-		icon: <SiDialogflow className={iconClasses} />
-	},
-	{
 		path: 'report',
 		name: 'Report',
 		icon: <BiSolidReport className={iconClasses} />

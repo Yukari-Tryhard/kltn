@@ -1,19 +1,19 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import { Box } from "@chakra-ui/react";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
 
-import Footer from "../../parts/footer/Footer";
-import Header from "../../parts/header/Header";
-import background from '../../assets/bg2.jpg'
+import Footer from '../../common/features/auth/Footer';
+import Header from '../../common/features/auth/Header';
+import background from '../../assets/bg.png';
 
 function Auth() {
-  return (
-    <Box backgroundImage={background} >
-      <Header />
-      <Outlet />
-      <Footer />
-    </Box>
-  );
+	return (
+		<Box backgroundImage={background}>
+			<Header />
+			<Outlet />
+			<Footer />
+		</Box>
+	);
 }
 
 export default Auth;
