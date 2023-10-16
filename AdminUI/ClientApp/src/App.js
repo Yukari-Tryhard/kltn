@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import { Layout } from './components/Layout';
-import './custom.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { themeChange } from 'theme-change';
+import AppRoutes from './routes/AppRoutes';
+import './styles/App.css';
 
-export default class App extends Component {
-  static displayName = App.name;
+function App() {
+	useEffect(() => {
+		// 👆 daisy UI themes initialization
+		themeChange(false);
+	}, []);
 
-  render() {
-    return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
-        </Routes>
-      </Layout>
-    );
-  }
+	return (
+		<>
+			<Router>
+				<AppRoutes />
+			</Router>
+		</>
+	);
 }
+
+export default App;

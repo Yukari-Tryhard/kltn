@@ -1,26 +1,60 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+// Core
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
 
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+// React Router
+import { Provider } from 'react-redux';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import { PrimeReactProvider } from 'primereact/api';
+import { store } from './store/Store';
+
+// React Query
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+// Charka UI
+import { ChakraProvider } from '@chakra-ui/react';
+import { createStandaloneToast } from '@chakra-ui/toast';
+
+// PrimeReact
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
+// Suspense
+import SuspenseContent from './containers/SuspenseContent';
+
+// App
+import App from './App';
+import './styles/index.css';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const { ToastContainer } = createStandaloneToast();
+
+// Create a client
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false
+		}
+	}
+});
 
 root.render(
-  <BrowserRouter basename={baseUrl}>
-    <App />
-  </BrowserRouter>);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.unregister();
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+	// <React.StrictMode>
+	<Suspense fallback={<SuspenseContent />}>
+		<QueryClientProvider client={queryClient}>
+			<Provider store={store}>
+				<PrimeReactProvider>
+					<ChakraProvider>
+						<ProSidebarProvider>
+							<ToastContainer />
+							<App />
+						</ProSidebarProvider>
+					</ChakraProvider>
+				</PrimeReactProvider>
+			</Provider>
+		</QueryClientProvider>
+	</Suspense>
+	// </React.StrictMode>
+);
