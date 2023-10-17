@@ -21,11 +21,12 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
 // Suspense
-import SuspenseContent from './containers/SuspenseContent';
+import LoadingSpinner from './common/components/LoadingSpinner';
 
 // App
 import App from './App';
 import './styles/index.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -42,7 +43,7 @@ const queryClient = new QueryClient({
 
 root.render(
 	// <React.StrictMode>
-	<Suspense fallback={<SuspenseContent />}>
+	<Suspense fallback={<LoadingSpinner />}>
 		<QueryClientProvider client={queryClient}>
 			<Provider store={store}>
 				<PrimeReactProvider>

@@ -8,10 +8,8 @@ import { Sidebar, SubMenu, Menu, MenuItem, useProSidebar } from 'react-pro-sideb
 
 import { useMutation } from 'react-query';
 
-import { Image } from 'primereact/image';
 import LoadingSpinner from '../common/components/LoadingSpinner';
 import routes from '../routes/AppSidebar';
-import LogoWhite from '../assets/Logo-white.png';
 
 function LeftSidebar() {
 	const [userAvatar, setUserAvatar] = useState();

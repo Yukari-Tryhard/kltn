@@ -1,11 +1,16 @@
 import { lazy } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 // Importing pages
 const Auth = lazy(() => import('./../pages/auth/Auth'));
 const Layout = lazy(() => import('./../containers/Layout'));
 const Login = lazy(() => import('../pages/auth/SignIn'));
 const Register = lazy(() => import('./../pages/auth/SignUp'));
+const FirstTimeLogin = lazy(() => import('./../pages/auth/FirstTimeLogin'));
+const NotFound = lazy(() => import('./../pages/error/NotFound'));
+
+// Importing routes
+const ProtectedFirstTimeLoginRoute = lazy(() => import('./../routes/ProtectedFirstTimeLoginRoute'));
 
 const AppRoutes = () => {
 	return (
@@ -19,7 +24,11 @@ const AppRoutes = () => {
 			{/* Place new routes over this */}
 			<Route path="/app/*" element={<Layout />} />
 
-			<Route path="*" element={<Navigate to={'/app/dashboard'} replace />} />
+			<Route element={<ProtectedFirstTimeLoginRoute />}>
+				<Route path="first-time-login" element={<FirstTimeLogin />} />
+			</Route>
+
+			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);
 };
