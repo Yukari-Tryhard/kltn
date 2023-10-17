@@ -25,7 +25,7 @@ import LoadingSpinner from './common/components/LoadingSpinner';
 
 // App
 import App from './App';
-import './styles/index.css';
+import './styles/custom.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

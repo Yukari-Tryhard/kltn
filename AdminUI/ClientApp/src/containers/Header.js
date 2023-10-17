@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+	Link
+	//useNavigate
+} from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { useSelector, useDispatch } from 'react-redux';
+import {
+	useSelector
+	//useDispatch
+} from 'react-redux';
 
 // Decoration
 import { Box, Flex, useToast, useDisclosure } from '@chakra-ui/react';
@@ -12,8 +18,8 @@ import ChakraAlertDialog from '../common/components/dialog/ChakraAlertDialog';
 import LoadingSpinner from '../common/components/LoadingSpinner';
 
 function Header() {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	// const dispatch = useDispatch();
+	// const navigate = useNavigate();
 	const toast = useToast();
 
 	const { pageTitle } = useSelector((state) => state.header);

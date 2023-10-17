@@ -2,11 +2,11 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 
-import Footer from '../../common/features/auth/Footer';
-import Header from '../../common/features/auth/Header';
-import background from '../../assets/bg.png';
+import Footer from '../common/features/auth/Footer';
+import Header from '../common/features/auth/Header';
+import background from '../assets/bg.png';
 
-function Auth() {
+function AuthRoute() {
 	return (
 		<Box backgroundImage={background}>
 			<Header />
@@ -16,4 +16,4 @@ function Auth() {
 	);
 }
 
-export default Auth;
+export default AuthRoute;
