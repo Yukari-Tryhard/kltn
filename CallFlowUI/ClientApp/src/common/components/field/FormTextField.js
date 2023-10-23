@@ -83,7 +83,7 @@ function FormTextField(props) {
 		return (
 			<FormControl isReadOnly={isReadOnly} isRequired={isRequired} isDisabled={isDisabled} isInvalid={meta.error && meta.touched}>
 				{label && <FormLabel>{label}</FormLabel>}
-				<Textarea {...field} resize={isResize ?? 'none'} height={height ?? 'none'} size={size ?? 'md'} placeholder={placeholder ?? ''} rows={5} />
+				<Textarea {...field} resize={isResize ?? 'none'} height={height ?? 'none'} size={size ?? 'md'} placeholder={placeholder ?? ''} rows={4} />
 				<FormErrorMessage>{meta.error}</FormErrorMessage>
 			</FormControl>
 		);
@@ -167,9 +167,7 @@ function FormTextField(props) {
 		return (
 			<FormControl isReadOnly={isReadOnly} isRequired={isRequired} isDisabled={isDisabled} isInvalid={meta.error && meta.touched}>
 				<FormLabel>{label}</FormLabel>
-
 				<Field {...field} formik={formik} as={NumberField} />
-
 				<FormErrorMessage>{meta.error}</FormErrorMessage>
 			</FormControl>
 		);

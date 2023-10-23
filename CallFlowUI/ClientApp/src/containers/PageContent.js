@@ -4,8 +4,9 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
 import Header from './Header';
-import SuspenseContent from './SuspenseContent';
+
 import routes from '../routes/ProtectedRoutes';
+import LoadingSpinner from '../common/components/LoadingSpinner';
 
 const Page404 = lazy(() => import('../pages/error/NotFound'));
 
@@ -22,10 +23,10 @@ function PageContent() {
 	}, [pageTitle]);
 
 	return (
-		<div className="drawer-content flex flex-col ">
+		<div className="drawer-content flex flex-col">
 			<Header />
-			<main className="flex-1 overflow-y-auto pt-4 px-6  bg-base-200" ref={mainContentRef}>
-				<Suspense fallback={<SuspenseContent />}>
+			<main className="flex-1 overflow-y-auto pt-4 px-6 bg-base-200" ref={mainContentRef}>
+				<Suspense fallback={<LoadingSpinner />}>
 					<Routes>
 						{routes.map((route, key) => {
 							return <Route key={key} exact={true} path={`${route.path}`} element={<route.component />} />;
@@ -35,7 +36,6 @@ function PageContent() {
 						<Route path="*" element={<Page404 />} />
 					</Routes>
 				</Suspense>
-				<div className="h-16"></div>
 			</main>
 		</div>
 	);
