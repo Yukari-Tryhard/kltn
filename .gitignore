@@ -107,3 +107,5 @@ node_modules
 /.vs/TLCN/DesignTimeBuild/.dtbcache.v2
 /.vs/ProjectEvaluation/tlcn.projects.v5.2
 /.vs/ProjectEvaluation/tlcn.metadata.v5.2
+
+.fake

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
+using CallFlowApplication.Interface;
 
 namespace CallFlowArchitecture
 {
@@ -23,6 +24,7 @@ namespace CallFlowArchitecture
         public DbSet<CallFlowPermission> CallFlowPermissions { get; set; }
         public DbSet<CallFlowRole> CallFlowRoles { get; set; }
         public DbSet<CallFlowLogins> CallFlowLogins { get; set; }
+        public DbSet<CallFlowData> CallFlowDatas {get; set;}
 
 
 
@@ -31,19 +33,21 @@ namespace CallFlowArchitecture
 
             try
             {
-                foreach (var entry in ChangeTracker.Entries<BaseAuditableEntity>())
+                var addedOrModifiedEntities = base.ChangeTracker.Entries<IAuditableEntity>()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+                var currentTime = DateTime.Now;
+
+                foreach (var entry in addedOrModifiedEntities)
                 {
-                    switch (entry.State)
+                    if (entry.State == EntityState.Added)
                     {
-                        case EntityState.Added:
-                            //entry.Entity.CreatedBy = currentUserService.UserId;
-                            entry.Entity.Created = DateTime.Now;
-                            break;
-                        case EntityState.Modified:
-                            //entry.Entity.LastModifiedBy = currentUserService.UserId;
-                            entry.Entity.LastModified = DateTime.Now;
-                            break;
+                        entry.Entity.Created = currentTime;
+                        // Set the CreatedBy and LastModifiedBy properties as needed
                     }
+
+                    entry.Entity.LastModified = currentTime;
+                    // Set the LastModifiedBy property as needed
                 }
 
                 return base.SaveChangesAsync(cancellationToken);

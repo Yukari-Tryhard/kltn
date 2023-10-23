@@ -9,6 +9,8 @@ namespace CallFlowArchitecture.Persistence
         public DbSet<CallFlowPermission> CallFlowPermissions { get; set; }
         public DbSet<CallFlowRole> CallFlowRoles { get; set; }
         public DbSet<CallFlowLogins> CallFlowLogins { get; set; }
+
+       public DbSet<CallFlowData> CallFlowDatas {get; set;}
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 
