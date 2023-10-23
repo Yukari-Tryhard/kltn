@@ -8,8 +8,10 @@ import { Sidebar, SubMenu, Menu, MenuItem, useProSidebar } from 'react-pro-sideb
 
 import { useMutation } from 'react-query';
 
+import { Image } from 'primereact/image';
 import LoadingSpinner from '../common/components/LoadingSpinner';
 import routes from '../routes/AppSidebar';
+import LogoWhite from '../assets/Logo-white.png';
 
 function LeftSidebar() {
 	const [userAvatar, setUserAvatar] = useState();
@@ -59,7 +61,7 @@ function LeftSidebar() {
 						<Flex alignItems="center" justifyContent="center" gap="2" padding="4" bg="#1C6758" height="65px">
 							<Flex flex="8" alignItems="center" gap="2">
 								{/* <Image className="flex absolute start-[-10%] w-[12rem] h-[12rem]" src={LogoWhite}></Image> */}
-								<Link to={'/app/dashboard'}>
+								<Link to={'/app/welcome'}>
 									<Heading fontSize="x-large" color="white" overflow="hidden" width="124px" textOverflow="ellipsis" whiteSpace="nowrap">
 										FlowDG
 									</Heading>

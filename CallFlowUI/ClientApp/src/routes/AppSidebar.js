@@ -1,5 +1,7 @@
 import { AiFillPhone } from 'react-icons/ai';
-import { MdSupervisorAccount } from 'react-icons/md';
+import { SiDialogflow } from 'react-icons/si';
+import { MdMiscellaneousServices, MdSupervisorAccount } from 'react-icons/md';
+import { DiAsterisk } from 'react-icons/di';
 import { IoIosSettings } from 'react-icons/io';
 import { BiSolidDashboard, BiSolidReport } from 'react-icons/bi';
 import { AiOutlineLink } from 'react-icons/ai';
@@ -34,6 +36,11 @@ const routes = [
 				icon: <FiPhoneCall className={submenuIconClasses} />
 			}
 		]
+	},
+	{
+		path: 'studio',
+		name: 'Studio',
+		icon: <SiDialogflow className={iconClasses} />
 	},
 	{
 		path: 'report',

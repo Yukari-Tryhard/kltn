@@ -1,29 +1,35 @@
-import React, { useEffect } from 'react';
-import {
-	Link
-	//useNavigate
-} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import {
-	useSelector
-	//useDispatch
-} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Decoration
 import { Box, Flex, useToast, useDisclosure } from '@chakra-ui/react';
+import BellIcon from '@heroicons/react/24/outline/BellIcon';
 import Bars3Icon from '@heroicons/react/24/outline/Bars3Icon';
+import MoonIcon from '@heroicons/react/24/outline/MoonIcon';
+import SunIcon from '@heroicons/react/24/outline/SunIcon';
+import { themeChange } from 'theme-change';
 
+import { openRightDrawer } from '../store/common/RightDrawerSlice';
+import { RIGHT_DRAWER_TYPES } from '../helper/GlobalConstantUtil';
 import AvatarWithPreview from '../common/components/AvatarWithPreview';
 import ChakraAlertDialog from '../common/components/dialog/ChakraAlertDialog';
 import LoadingSpinner from '../common/components/LoadingSpinner';
 
 function Header() {
-	// const dispatch = useDispatch();
-	// const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const toast = useToast();
 
-	const { pageTitle } = useSelector((state) => state.header);
+	const { noOfNotifications, pageTitle } = useSelector((state) => state.header);
+	const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('theme'));
 	const { isOpen: isSignOutAlertOpen, onOpen: onSignOutAlertOpen, onClose: onSignOutAlertClose } = useDisclosure();
+
+	// Opening right sidebar for notification
+	const openNotification = () => {
+		dispatch(openRightDrawer({ header: 'Notifications', bodyType: RIGHT_DRAWER_TYPES.NOTIFICATION }));
+	};
 
 	function logoutUser() {
 		localStorage.clear();
@@ -49,7 +55,6 @@ function Header() {
 	});
 
 	const handleLogout = () => {
-		logoutUser();
 		useLogoutMutation.mutate();
 	};
 
@@ -73,6 +78,18 @@ function Header() {
 				</div>
 
 				<div className="order-last">
+					{/* Notification icon */}
+					<button className="btn btn-ghost ml-4  btn-circle" onClick={() => openNotification()}>
+						<div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+							<BellIcon className="h-6 w-6" />
+							{noOfNotifications > 0 ? (
+								<span className="indicator-item badge badge-secondary badge-sm" style={{ position: 'absolute', top: '-0.5rem', right: '-1rem' }}>
+									{noOfNotifications}
+								</span>
+							) : null}
+						</div>
+					</button>
+
 					{/* Profile icon, opening menu on click */}
 					<div className="dropdown dropdown-end ml-2">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">

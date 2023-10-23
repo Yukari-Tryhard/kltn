@@ -1,7 +1,7 @@
 import { Box, Button, Center, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/NotFound.css';
+import '../../styles/UnAuthorize.css';
 
 function UnAuthorize() {
 	const navigate = useNavigate();
