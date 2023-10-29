@@ -1,0 +1,205 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/tinnt/Public/Repos/kltn/CallFlowArchitecture/CallFlowArchitecture.csproj": {}
+  },
+  "projects": {
+    "/home/tinnt/Public/Repos/kltn/CallFlowApplication/CallFlowApplication.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/tinnt/Public/Repos/kltn/CallFlowApplication/CallFlowApplication.csproj",
+        "projectName": "CallFlowApplication",
+        "projectPath": "/home/tinnt/Public/Repos/kltn/CallFlowApplication/CallFlowApplication.csproj",
+        "packagesPath": "/home/tinnt/.nuget/packages/",
+        "outputPath": "/home/tinnt/Public/Repos/kltn/CallFlowApplication/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/tinnt/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/home/tinnt/Public/Repos/kltn/Domain/Domain.csproj": {
+                "projectPath": "/home/tinnt/Public/Repos/kltn/Domain/Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.414/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/tinnt/Public/Repos/kltn/CallFlowArchitecture/CallFlowArchitecture.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/tinnt/Public/Repos/kltn/CallFlowArchitecture/CallFlowArchitecture.csproj",
+        "projectName": "CallFlowArchitecture",
+        "projectPath": "/home/tinnt/Public/Repos/kltn/CallFlowArchitecture/CallFlowArchitecture.csproj",
+        "packagesPath": "/home/tinnt/.nuget/packages/",
+        "outputPath": "/home/tinnt/Public/Repos/kltn/CallFlowArchitecture/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/tinnt/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/home/tinnt/Public/Repos/kltn/CallFlowApplication/CallFlowApplication.csproj": {
+                "projectPath": "/home/tinnt/Public/Repos/kltn/CallFlowApplication/CallFlowApplication.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
+            "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": {
+              "target": "Package",
+              "version": "[6.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.14, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
+            "Microsoft.Extensions.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "System.Runtime": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.414/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/tinnt/Public/Repos/kltn/Domain/Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/tinnt/Public/Repos/kltn/Domain/Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "/home/tinnt/Public/Repos/kltn/Domain/Domain.csproj",
+        "packagesPath": "/home/tinnt/.nuget/packages/",
+        "outputPath": "/home/tinnt/Public/Repos/kltn/Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/tinnt/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.414/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
