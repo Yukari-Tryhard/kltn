@@ -1,6 +1,5 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Country, State } from 'country-state-city';
@@ -16,14 +15,11 @@ import TitleCard from '../../components/cards/TitleCard';
 import DynamicTable from '../../components/tables/DynamicTable';
 import DynamicDrawer from '../../components/tables/DynamicDrawer';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import AvatarWithPreview from '../../components/AvatarWithPreview';
 import ChakraAlertDialog from '../../components/dialog/ChakraAlertDialog';
 
-import { useGetPermission } from '../../../hook/useGetPermission';
-import { passwordRegex } from '../../../helper/ValidationRegExp';
 import { Helper } from '../../../helper/Helper';
 
-import { RECENT_TRANSACTIONS } from '../../../helper/DummyData';
+import { ACCOUNT_MANAGEMENT } from '../../../helper/DummyData';
 import AccTopSideButtons from './AccTopSideButtons';
 
 function AccTable() {
@@ -32,29 +28,31 @@ function AccTable() {
 	const queryClient = useQueryClient();
 	const [editData, setEditData] = useState({});
 	const [deleteSingleData, setDeleteSingleData] = useState({});
+	const account = useState(ACCOUNT_MANAGEMENT);
+
 	//* #endregion
 
 	//* #region hooks
-	// const { data: dataListDepartment, isFetching: isFetchingListDepartment, isLoading: isLoadingListDepartment } = useGetListDepartment();
+
 	const {
-		data: dataListOrganization,
-		isLoading: isLoadingListOrganization,
-		isFetching: isFetchingListOrganization
+		data: dataListAccount,
+		isLoading: isLoadingListAccount
+		//isFetching: isFetchingListAccount
 	} = useQuery(
-		'listOrganization',
-		// organizationService.getListOrganization,
+		'listAccount',
+		// accountService.getListAccount,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1
 		}
 	);
-	const [listOrganizationArray, setListOrganizationArray] = useState([]);
+	const [listAccountArray, setListAccountArray] = useState([]);
 	useEffect(() => {
-		setListOrganizationArray(Helper.convertToArraySelection(dataListOrganization?.result, 'organizationName', 'organizationId'));
-	}, [dataListOrganization]);
+		setListAccountArray(Helper.convertToArraySelection(dataListAccount?.result, 'organizationName', 'organizationId'));
+	}, [dataListAccount]);
 
-	const useCreateDepartment = useMutation(
-		// departmentService.createDepartmentService,
+	const useCreateAccount = useMutation(
+		// accountService.createAccountService,
 		{
 			onSuccess: (data) => {
 				const { message } = data;
@@ -67,9 +65,9 @@ function AccTable() {
 						duration: 5000
 					});
 				} else {
-					queryClient.invalidateQueries('listDepartment');
+					queryClient.invalidateQueries('listAccount');
 					toast({
-						title: 'Create Department Successfully',
+						title: 'Create Account Successfully',
 						position: 'bottom-right',
 						status: 'success',
 						isClosable: true,
@@ -88,8 +86,8 @@ function AccTable() {
 			}
 		}
 	);
-	const useDeleteDepartment = useMutation(
-		// departmentService.deleteDepartment,
+	const useDeleteAccount = useMutation(
+		// accountService.deleteAccount,
 		{
 			onSuccess: (data) => {
 				const { message } = data;
@@ -102,9 +100,9 @@ function AccTable() {
 						duration: 5000
 					});
 				} else {
-					queryClient.invalidateQueries('listDepartment');
+					queryClient.invalidateQueries('listAccount');
 					toast({
-						title: 'Delete Department Successfully',
+						title: 'Delete Account Successfully',
 						position: 'bottom-right',
 						status: 'success',
 						isClosable: true,
@@ -123,8 +121,8 @@ function AccTable() {
 			}
 		}
 	);
-	const useSaveDepartment = useMutation(
-		// departmentService.saveDepartmentService,
+	const useSaveAccount = useMutation(
+		// accountService.saveAccountService,
 		{
 			onSuccess: (data) => {
 				const { message } = data;
@@ -137,9 +135,9 @@ function AccTable() {
 						duration: 5000
 					});
 				} else {
-					queryClient.invalidateQueries('listDepartment');
+					queryClient.invalidateQueries('listAccount');
 					toast({
-						title: 'Save Department Successfully',
+						title: 'Save Account Successfully',
 						position: 'bottom-right',
 						status: 'success',
 						isClosable: true,
@@ -166,42 +164,41 @@ function AccTable() {
 	const DeleteRange = (data) => {
 		console.log('handleDeleteRange', data);
 	};
-	const Delete = (row, action) => {
-		setDeleteSingleData(row.departmentId);
+	const Delete = (row) => {
+		setDeleteSingleData(row.accountId);
 		onDeleteSingleOpen();
 	};
 	const handleAcceptDelete = () => {
-		// console.log(deleteSingleData);
-		useDeleteDepartment.mutate(deleteSingleData);
+		useDeleteAccount.mutate(deleteSingleData);
 		setDeleteSingleData({});
 		onDeleteSingleClose();
 	};
-	const Edit = (row, action) => {
+	const Edit = (row) => {
 		onAddEditOpen();
 		setEditData(row);
 	};
-	const convertDepartmentObject = (values) => {
-		let departmentLocation = values['location'];
+	const convertAccountObject = (values) => {
+		let accountLocation = values['location'];
 		let organizationId = values['organization'];
-		departmentLocation['address'] = values['address'];
+		accountLocation['address'] = values['address'];
 		delete values['address'];
 		delete values['location'];
-		const departmentObj = {
+		const accountObj = {
 			...values,
-			location: { ...departmentLocation },
+			location: { ...accountLocation },
 			organization: { organizationId }
 		};
-		return departmentObj;
+		return accountObj;
 	};
-	const handleCreateDepartment = (values) => {
-		const departmentObj = convertDepartmentObject(values);
-		useCreateDepartment.mutate(departmentObj);
+	const handleCreateAccount = (values) => {
+		const accountObj = convertAccountObject(values);
+		useCreateAccount.mutate(accountObj);
 		closeDrawer();
 	};
-	const handleEditDepartment = (values) => {
-		const id = editData.departmentId;
-		const departmentObj = convertDepartmentObject(values);
-		useSaveDepartment.mutate({ id, departmentObj });
+	const handleEditAccount = (values) => {
+		const id = editData.accountId;
+		const accountObj = convertAccountObject(values);
+		useSaveAccount.mutate({ id, accountObj });
 		closeDrawer();
 	};
 	const closeDrawer = () => {
@@ -213,85 +210,61 @@ function AccTable() {
 	//* #region table
 	const tableRowAction = [
 		{
-			actionName: 'Edit'
-			// func: Edit,
-			// isDisabled: resultPermission?.update
+			actionName: 'Edit',
+			func: Edit
 		},
 		{
-			actionName: 'Delete'
-			// func: Delete,
-			// isDisabled: resultPermission?.delete
+			actionName: 'Delete',
+			func: Delete
 		}
 	];
 	const columns = React.useMemo(
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'departmentId',
+				accessor: 'companyId',
 				// haveFilter: {
 				//   filterType: FilterType.Text,
 				// },
 				// haveSort: true,
-				cellWidth: '150px',
 				hidden: true
 			},
 			{
-				Header: 'Dep.Name',
-				accessor: 'departmentName',
+				Header: 'Name',
+				accessor: 'companyName'
 				// haveFilter: {
 				//   filterType: FilterType.Text,
 				// },
 				// haveSort: true,
-
-				cellWidth: '200px'
 			},
 			{
-				Header: 'Org.Name',
-				accessor: 'organization',
+				Header: 'Email',
+				accessor: 'email'
 				// haveFilter: {
 				//   filterType: FilterType.Default,
 				// },
 				// haveSort: true,
-				Cell: ({ value }) => <span>{value?.organizationName}</span>,
-				cellWidth: '200px'
-			},
-			{
-				Header: 'City',
-				accessor: 'location.city',
-				cellWidth: '200px'
-				// haveFilter: {
-				//   filterType: FilterType.Text,
-				// },
-				// haveSort: true,
-			},
-			{
-				Header: 'State',
-				accessor: 'location.state',
-				Cell: ({ row, value }) => {
-					return <span>{State?.getStateByCodeAndCountry(row.values['location.state'], row.values['location.country'])?.name}</span>;
-				},
-				cellWidth: '150px'
-				// haveFilter: {
-				//   filterType: FilterType.Text,
-				// },
-				// haveSort: true,
-			},
-			{
-				Header: 'Country',
-				accessor: 'location.country',
-				Cell: ({ row, value }) => {
-					return <span>{Country?.getCountryByCode(row.values['location.country'])?.name}</span>;
-				},
-				cellWidth: '200px'
-				// haveFilter: {
-				//   filterType: FilterType.Text,
-				// },
-				// haveSort: true,
+				//Cell: ({ value }) => <span>{value?.organizationName}</span>,
 			},
 			{
 				Header: 'Address',
-				accessor: 'location.address',
-				cellWidth: '200px'
+				accessor: 'address'
+				// haveFilter: {
+				//   filterType: FilterType.Text,
+				// },
+				// haveSort: true,
+			},
+			{
+				Header: 'Phone Number',
+				accessor: 'phoneNumber'
+				// haveFilter: {
+				//   filterType: FilterType.Text,
+				// },
+				// haveSort: true,
+			},
+			{
+				Header: 'Active',
+				accessor: 'active'
 				// haveFilter: {
 				//   filterType: FilterType.Text,
 				// },
@@ -305,17 +278,17 @@ function AccTable() {
 	//* #region drawer
 	const drawerFieldData = [
 		{
-			name: 'departmentName',
-			label: 'Department Name',
-			placeholder: 'Enter your Department Name',
+			name: 'accountName',
+			label: 'Account Name',
+			placeholder: 'Enter your Account Name',
 			leftIcon: <FaRegUserCircle color="#999" fontSize="1.5rem" />
 		},
 		{
 			name: 'organization',
-			label: 'Organization',
+			label: 'Account',
 			placeholder: '---',
 			isSelectionField: true,
-			selectionArray: listOrganizationArray ? [...listOrganizationArray] : []
+			selectionArray: listAccountArray ? [...listAccountArray] : []
 		},
 		{
 			name: 'location',
@@ -330,8 +303,8 @@ function AccTable() {
 		}
 	];
 	const initialValues = {
-		departmentName: `${editData.departmentName ? editData.departmentName : ''}`,
-		organization: `${editData?.organization?.organizationId ? editData?.organization?.organizationId : ''}`,
+		accountName: `${editData.accountName ? editData.accountName : ''}`,
+		organization: `${editData?.account?.accountId ? editData?.account?.accountId : ''}`,
 		location: {
 			country: `${editData['location.country'] ?? ''}`,
 			state: `${editData['location.state'] ?? ''}`,
@@ -340,34 +313,37 @@ function AccTable() {
 		address: `${editData['location.address'] ? editData['location.address'] : ''}`
 	};
 	const validationSchema = Yup.object().shape({
-		departmentName: Yup.string().required('This field is required'),
+		accountName: Yup.string().required('This field is required'),
 		organization: Yup.string().required('This field is required'),
 		address: Yup.string().required('This field is required')
 	});
 	//* #endregion
 
-	// if (isLoadingListDepartment || isLoadingListOrganization) return <LoadingSpinner />;
+	if (isLoadingListAccount) return <LoadingSpinner />;
 	return (
 		<TitleCard title="Accounts Management" topMargin="mt-2" TopSideButtons={<AccTopSideButtons />}>
-			{useCreateDepartment.isLoading || useSaveDepartment.isLoading ? (
+			{useCreateAccount.isLoading || useSaveAccount.isLoading ? (
 				<LoadingSpinner />
 			) : (
 				<Box marginTop="0px !important">
 					{
-						// dataListDepartment?.result?.data &&
-						<DynamicTable
-							onAddEditOpen={onAddEditOpen}
-							handleDeleteRange={DeleteRange}
-							tableRowAction={tableRowAction}
-							columns={columns}
-							data={
-								dataListDepartment?.result?.data
-							}
-						/>
+						// dataListAccount?.result?.data &&
+						account[0] && (
+							<DynamicTable
+								onAddEditOpen={onAddEditOpen}
+								handleDeleteRange={DeleteRange}
+								tableRowAction={tableRowAction}
+								columns={columns}
+								data={
+									//dataListAccount?.result?.data
+									account[0]
+								}
+							/>
+						)
 					}
 					<DynamicDrawer
-						handleEdit={handleEditDepartment}
-						handleCreate={handleCreateDepartment}
+						handleEdit={handleEditAccount}
+						handleCreate={handleCreateAccount}
 						isAddEditOpen={isAddEditOpen}
 						onAddEditClose={onAddEditClose}
 						editData={editData}
