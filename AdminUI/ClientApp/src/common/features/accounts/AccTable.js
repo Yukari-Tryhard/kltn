@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Country, State } from 'country-state-city';
@@ -25,31 +25,31 @@ import AccTopSideButtons from './AccTopSideButtons';
 function AccTable() {
 	//* #region declare variables
 	const toast = useToast();
+	const dispatch = useDispatch();
 	const queryClient = useQueryClient();
 	const [editData, setEditData] = useState({});
 	const [deleteSingleData, setDeleteSingleData] = useState({});
-	const account = useState(ACCOUNT_MANAGEMENT);
-
+	const [account, setAccounts] = useState(ACCOUNT_MANAGEMENT);
+	//const [listAccountArray, setListAccountArray] = useState([]);
 	//* #endregion
 
 	//* #region hooks
-
 	const {
-		data: dataListAccount,
+		//data: dataListAccount,
 		isLoading: isLoadingListAccount
 		//isFetching: isFetchingListAccount
 	} = useQuery(
 		'listAccount',
-		// accountService.getListAccount,
+		//accountService.getListAccount,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1
 		}
 	);
-	const [listAccountArray, setListAccountArray] = useState([]);
-	useEffect(() => {
-		setListAccountArray(Helper.convertToArraySelection(dataListAccount?.result, 'organizationName', 'organizationId'));
-	}, [dataListAccount]);
+
+	// useEffect(() => {
+	// 	setListAccountArray(Helper.convertToArraySelection(dataListAccount?.result, 'companyName', 'companyId'));
+	// }, [dataListAccount]);
 
 	const useCreateAccount = useMutation(
 		// accountService.createAccountService,
@@ -205,6 +205,26 @@ function AccTable() {
 		onAddEditClose();
 		setEditData({});
 	};
+	const removeFilter = () => {
+		setAccounts(ACCOUNT_MANAGEMENT);
+	};
+
+	const applySearch = (value) => {
+		let filteredAccounts = account.filter((t) => {
+			return t.companyName.toLowerCase().includes(value.toLowerCase());
+		});
+		setAccounts(filteredAccounts);
+	};
+	const updateAccountStatus = (index) => {
+		let dashboard = account[index];
+		setAccounts(
+			account.map((account, idx) => {
+				if (idx === index) return { ...account, active: !account.active };
+				return account;
+			})
+		);
+		dispatch(showNotification({ message: `${dashboard.companyName} ${dashboard.active ? 'is now Disabled' : 'is now Active'}`, status: 1 }));
+	};
 	//* #endregion
 
 	//* #region table
@@ -278,38 +298,61 @@ function AccTable() {
 	//* #region drawer
 	const drawerFieldData = [
 		{
-			name: 'accountName',
-			label: 'Account Name',
-			placeholder: 'Enter your Account Name',
-			leftIcon: <FaRegUserCircle color="#999" fontSize="1.5rem" />
+			name: 'companyName',
+			label: 'Company Name',
+			placeholder: 'Company Name',
+			isRequired: true,
+			leftIcon: <FaRegUserCircle color="#999" fontSize="1.2rem" />
 		},
 		{
-			name: 'organization',
-			label: 'Account',
-			placeholder: '---',
-			isSelectionField: true,
-			selectionArray: listAccountArray ? [...listAccountArray] : []
+			name: 'email',
+			label: 'Email',
+			type: 'email',
+			placeholder: 'Email address',
+			isRequired: true,
+			isReadOnly: Object.keys(editData).length === 0 ? false : true,
+			leftIcon: <MdOutlineAlternateEmail color="#999" fontSize="1.2rem" />
 		},
 		{
-			name: 'location',
-			isAddress: true
+			name: 'password',
+			label: 'Password',
+			placeholder: 'Password',
+			isRequired: true,
+			isPassword: 'true',
+			leftIcon: <BsFillShieldLockFill color="#999" fontSize="1.2rem" />,
+			rightIcon: <BsEyeFill color="#999" fontSize="1.2rem" />,
+			hideIcon: <BsEyeSlashFill color="#999" fontSize="1.2rem" />
+		},
+		{
+			name: 'confirmPassword',
+			label: 'Confirm Password',
+			placeholder: 'Confirm Password',
+			isPassword: 'true',
+			isRequired: true,
+			leftIcon: <BsFillShieldLockFill color="#999" fontSize="1.2rem" />,
+			rightIcon: <BsEyeFill color="#999" fontSize="1.2rem" />,
+			hideIcon: <BsEyeSlashFill color="#999" fontSize="1.2rem" />
+		},
+		{
+			name: 'phoneNumber',
+			label: 'Phone',
+			type: 'type',
+			placeholder: 'Phone Number',
+			isRequired: true,
+			leftIcon: <BsTelephone color="#999" fontSize="1.4rem" />
 		},
 		{
 			isTextAreaField: true,
 			name: 'address',
 			label: 'Address',
 			height: '130px',
-			placeholder: 'Enter your address'
+			placeholder: 'Address',
+			isRequired: true
 		}
 	];
 	const initialValues = {
 		accountName: `${editData.accountName ? editData.accountName : ''}`,
 		organization: `${editData?.account?.accountId ? editData?.account?.accountId : ''}`,
-		location: {
-			country: `${editData['location.country'] ?? ''}`,
-			state: `${editData['location.state'] ?? ''}`,
-			city: `${editData['location.city'] ?? ''}`
-		},
 		address: `${editData['location.address'] ? editData['location.address'] : ''}`
 	};
 	const validationSchema = Yup.object().shape({
@@ -321,22 +364,22 @@ function AccTable() {
 
 	if (isLoadingListAccount) return <LoadingSpinner />;
 	return (
-		<TitleCard title="Accounts Management" topMargin="mt-2" TopSideButtons={<AccTopSideButtons />}>
+		<TitleCard title="Accounts Management" topMargin="mt-2" TopSideButtons={<AccTopSideButtons applySearch={applySearch} removeFilter={removeFilter} onAddEditOpen={onAddEditOpen} />}>
 			{useCreateAccount.isLoading || useSaveAccount.isLoading ? (
 				<LoadingSpinner />
 			) : (
 				<Box marginTop="0px !important">
 					{
 						// dataListAccount?.result?.data &&
-						account[0] && (
+						account && (
 							<DynamicTable
-								onAddEditOpen={onAddEditOpen}
 								handleDeleteRange={DeleteRange}
+								handleSwitchStatus={updateAccountStatus}
 								tableRowAction={tableRowAction}
 								columns={columns}
 								data={
 									//dataListAccount?.result?.data
-									account[0]
+									account
 								}
 							/>
 						)

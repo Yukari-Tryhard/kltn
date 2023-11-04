@@ -19,8 +19,6 @@ function DynamicDrawer(props) {
 						initialValues={initialValues}
 						validationSchema={validationSchema}
 						onSubmit={(values, actions) => {
-							// console.log("actions", actions);
-							// alert(JSON.stringify(values, null, 2));
 							if (Object.keys(editData).length > 0) {
 								handleEdit(values);
 							} else {
@@ -33,13 +31,13 @@ function DynamicDrawer(props) {
 							<Stack display="flex" as="form" onSubmit={formik.handleSubmit}>
 								<HStack>
 									<Heading flex="1" fontSize="2xl">
-										{titleArray ? (Object.keys(editData).length > 0 ? titleArray[0] : titleArray[1]) : Object.keys(editData).length > 0 ? 'Edit' : 'Add'}
+										{titleArray ? (Object.keys(editData).length > 0 ? titleArray[0] : titleArray[1]) : Object.keys(editData).length > 0 ? 'Edit' : 'Create New'}
 									</Heading>
 									<Flex justifyContent="flex-end">
 										<Button variant="outline" mr={3} onClick={handleClose}>
 											Cancel
 										</Button>
-										<Button type="submit" colorScheme="blue" isDisabled={disableSubmit ? true : false}>
+										<Button type="submit" colorScheme="green" isDisabled={disableSubmit ? true : false}>
 											Save
 										</Button>
 									</Flex>

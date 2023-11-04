@@ -3,32 +3,7 @@ import debounce from 'lodash/debounce';
 
 // Decoration
 import { usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
-import {
-	Table,
-	Tbody,
-	Tr,
-	Th,
-	Td,
-	Thead,
-	TableContainer,
-	Switch,
-	Box,
-	Icon,
-	Button,
-	Text,
-	HStack,
-	MenuButton,
-	MenuList,
-	MenuItem,
-	Menu,
-	Stack,
-	Flex,
-	Input,
-	Select,
-	// useDisclosure,
-	Tooltip,
-	Portal
-} from '@chakra-ui/react';
+import { Table, Tbody, Tr, Th, Td, Thead, TableContainer, Switch, Box, Icon, Button, Text, HStack, MenuButton, MenuList, MenuItem, Menu, Stack, Flex, Input, Select, useDisclosure, Tooltip, Portal } from '@chakra-ui/react';
 // Icons
 import { FiMoreVertical } from 'react-icons/fi';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
@@ -38,8 +13,8 @@ import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 // Components
 import { Helper } from '../../../helper/Helper';
 import NoDataToDisplay from '../NoDataToDisplay';
-// import ChakraAlertDialog from '../../components/dialog/ChakraAlertDialog';
-// import IndeterminateCheckbox from '../IndeterminateCheckbox';
+import ChakraAlertDialog from '../../components/dialog/ChakraAlertDialog';
+import IndeterminateCheckbox from '../IndeterminateCheckbox';
 
 // Global variables
 const numberType = ['Is Greater Than Or Equal To', 'Is Greater Than', 'Is Less Than Or Equal To', 'Is Less Than', 'Is Equal To', 'Is Not Equal To'];
@@ -67,28 +42,19 @@ export const FilterType = {
 };
 
 function DynamicTable(props) {
-	const {
-		data,
-		columns,
-		// handleDeleteRange,
-		onAddEditOpen,
-		tableRowAction,
-		// hideAction,
-		hideButtons,
-		noPaging
-	} = props;
-	// const { isOpen: isDeleteRangeOpen, onOpen: onDeleteRangeOpen, onClose: onDeleteRangeClose } = useDisclosure();
+	const { data, columns, handleDeleteRange, handleSwitchStatus, tableRowAction, hideReset, hideDeleteRange, hideButtons, noPaging } = props;
+	const { isOpen: isDeleteRangeOpen, onOpen: onDeleteRangeOpen, onClose: onDeleteRangeClose } = useDisclosure();
 
-	// const handleDeleteRangeAlertAccept = () => {
-	// 	onDeleteRangeClose();
-	// 	handleDeleteRange(selectedFlatRows);
-	// };
+	const handleDeleteRangeAlertAccept = () => {
+		onDeleteRangeClose();
+		handleDeleteRange(selectedFlatRows);
+	};
 
 	const {
 		headerGroups,
 		rows,
 		page,
-		//selectedFlatRows,
+		selectedFlatRows,
 		nextPage,
 		previousPage,
 		gotoPage,
@@ -119,11 +85,11 @@ function DynamicTable(props) {
 					),
 					Cell: ({ row }) => (
 						<HStack>
-							{/* {<IndeterminateCheckbox {...row.getToggleRowSelectedProps()} type="checkbox" />} */}
+							{hideDeleteRange && <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} type="checkbox" />}
 							<Box>
 								<Menu isLazy>
 									<Tooltip placement="right" label="Record Bulk Action" hasArrow>
-										<MenuButton colorScheme="blue" variant="outline" as={Button}>
+										<MenuButton className="" colorScheme="green" variant="outline" as={Button} px={4} py={2} transition="all 0.2s" borderRadius="md" borderWidth="1px" _expanded={{ bg: 'green.400' }}>
 											<Icon as={FiMoreVertical} />
 										</MenuButton>
 									</Tooltip>
@@ -187,7 +153,7 @@ function DynamicTable(props) {
 		}
 		setPagingObject((prev) => {
 			const updatedFilterAndSorter = { ...prev.filterAndSorter };
-			// updatedFilterAndSorter[accessor].value=value
+			updatedFilterAndSorter[accessor].value = value;
 			updatedFilterAndSorter[accessor].filterType = sortAndFilterValue;
 			return { ...prev, filterAndSorter: updatedFilterAndSorter };
 		});
@@ -196,11 +162,11 @@ function DynamicTable(props) {
 	const debouncedGotoPage = debounce((value) => {
 		const pageNumber = value && Number(value) && value > 0 ? value - 1 : 0;
 		gotoPage(pageNumber);
-		// setPagingObject((prev) => {
-		//   const updatedFilterAndSorter = { ...prev.paging };
-		//   updatedFilterAndSorter.pageNumber = pageNumber;
-		//   return { ...prev, paging: updatedFilterAndSorter };
-		// });
+		setPagingObject((prev) => {
+			const updatedFilterAndSorter = { ...prev.paging };
+			updatedFilterAndSorter.pageNumber = pageNumber;
+			return { ...prev, paging: updatedFilterAndSorter };
+		});
 	}, 500);
 
 	const handleSort = (column, value) => {
@@ -229,17 +195,17 @@ function DynamicTable(props) {
 		});
 	};
 
-	// const handleReset = () => {
-	// 	setPagingObject({
-	// 		paging: {
-	// 			pageSize: pageSize,
-	// 			pageNumber: pageIndex + 1
-	// 		},
-	// 		filterAndSorter: initialData
-	// 	});
-	// 	setPageSize(pageSize);
-	// 	gotoPage(0);
-	// };
+	const handleReset = () => {
+		setPagingObject({
+			paging: {
+				pageSize: pageSize,
+				pageNumber: pageIndex + 1
+			},
+			filterAndSorter: initialData
+		});
+		setPageSize(pageSize);
+		gotoPage(0);
+	};
 
 	useEffect(() => {
 		setPagingObject((prev) => {
@@ -260,131 +226,8 @@ function DynamicTable(props) {
 	return (
 		<Stack marginTop="0px !important">
 			<>
-				{/* Toolbar */}
-				<HStack
-					display="flex"
-					width="100%"
-					className="tool-bar"
-					flexDirection={{
-						base: 'column',
-						xl: 'row'
-					}}
-					gap="10px"
-					alignItems="flex-start"
-				>
-					{!hideButtons && (
-						<HStack flex="1">
-							{
-								<Tooltip placement="top" hasArrow label="Add new record for table">
-									<Button shadow="2xl" colorScheme="green" onClick={onAddEditOpen}>
-										Add New
-									</Button>
-								</Tooltip>
-							}
-							{/* <Tooltip placement="top" hasArrow label="Reset table paging">
-								<Button shadow="2xl" colorScheme="green" onClick={handleReset}>
-									Reset
-								</Button>
-							</Tooltip> */}
-							{/* {
-								<Tooltip placement="top" hasArrow label="Delete a collection of record">
-									<Button onClick={onDeleteRangeOpen} isDisabled={selectedFlatRows.length < 2} colorScheme="blue">
-										Delete Range
-									</Button>
-								</Tooltip>
-							} */}
-							{/* <ChakraAlertDialog
-								isOpen={isDeleteRangeOpen}
-								onClose={onDeleteRangeClose}
-								onAccept={handleDeleteRangeAlertAccept}
-								title={`Delete ${rows.length === selectedFlatRows.length ? 'All' : ''} ${selectedFlatRows.length} items`}
-							/> */}
-						</HStack>
-					)}
-					{!noPaging && (
-						<HStack
-							spacing="10px"
-							display="flex"
-							gap="10px"
-							flex="1"
-							marginLeft="0px !important"
-							alignItems="center"
-							flexDirection={{
-								base: 'column',
-								md: 'row'
-							}}
-							justifyContent={{
-								base: 'flex-start',
-								md: 'flex-end'
-							}}
-						>
-							<HStack>
-								<Button colorScheme="green" onClick={() => gotoPage(0)} isDisabled={!canPreviousPage} shadow="2xl">
-									<Icon as={MdSkipPrevious} />
-								</Button>
-								<Button colorScheme="green" onClick={() => previousPage()} isDisabled={!canPreviousPage} shadow="2xl">
-									Previous
-								</Button>
-								<Button colorScheme="green" onClick={() => nextPage()} isDisabled={!canNextPage} shadow="2xl">
-									Next
-								</Button>
-								<Button colorScheme="green" onClick={() => gotoPage(pageCount - 1)} isDisabled={!canNextPage} shadow="2xl">
-									<Icon as={MdSkipNext} />
-								</Button>
-							</HStack>
-							<HStack>
-								<Flex alignItems="center">
-									<Text fontWeight="semibold" fontSize="sm">
-										{pageIndex + 1}/{pageCount} {pageCount > 1 ? 'pages' : 'page'}
-									</Text>
-								</Flex>
-								<Flex alignItems="center" gap="5px">
-									<Text fontWeight="semibold" fontSize="sm">
-										Go to
-									</Text>
-									<Tooltip placement="top" hasArrow label="Jump to specific page">
-										<Input
-											type="number"
-											flex="1"
-											background="white"
-											width="70px"
-											onChange={(e) => {
-												debouncedGotoPage(e.target.value);
-											}}
-											defaultValue={pageIndex + 1}
-											min={1}
-											shadow="2xl"
-										/>
-									</Tooltip>
-								</Flex>
-								<Tooltip placement="top" hasArrow label="Number of showing items">
-									<Select
-										shadow="2xl"
-										width="150px"
-										value={pageSize}
-										background="white"
-										fontSize={{ base: 'sm', md: 'md' }}
-										onChange={(e) => {
-											setPageSize(Number(e.target.value));
-										}}
-									>
-										{[10, 20, 30].map((pageSize) => (
-											<option key={pageSize} value={pageSize}>
-												Show {pageSize}
-											</option>
-										))}
-										<option key={data.length} value={data.length}>
-											Show All
-										</option>
-									</Select>
-								</Tooltip>
-							</HStack>
-						</HStack>
-					)}
-				</HStack>
-
 				{/* Table */}
-				<TableContainer rounded="lg" shadow="2xl" marginTop="12px">
+				<TableContainer rounded="lg" shadow="2xl">
 					<Table variant="simple" {...getTableProps()}>
 						<Thead bgColor="primary2">
 							{headerGroups?.map((headerGroup) => (
@@ -517,7 +360,7 @@ function DynamicTable(props) {
 																fontSize="1rem"
 																fontWeight="normal"
 															>
-																<Switch id="isChecked" isChecked={cell?.value} colorScheme="teal" size="lg" />
+																<Switch id="isChecked" isChecked={cell?.value} colorScheme="teal" size="lg" onChange={() => handleSwitchStatus(cell?.row?.index)} />
 															</Box>
 														) : (
 															<Box
@@ -541,6 +384,127 @@ function DynamicTable(props) {
 						</Tbody>
 					</Table>
 				</TableContainer>
+
+				{/* Toolbar */}
+				<HStack
+					display="flex"
+					width="100%"
+					className="tool-bar"
+					alignItems="center"
+					flexDirection={{
+						base: 'column',
+						xl: 'row'
+					}}
+					gap="10px"
+					marginTop="12px"
+				>
+					<HStack display="flex" flex="1" alignItems="center">
+						{!hideReset & !hideDeleteRange && (
+							<Flex alignItems="center">
+								<Text fontWeight="semibold" fontSize="md">
+									{pageIndex + 1}/{pageCount} {pageCount > 1 ? 'pages' : 'page'}
+								</Text>
+							</Flex>
+						)}
+						{hideReset && (
+							<Tooltip placement="top" hasArrow label="Reset table paging">
+								<Button shadow="2xl" colorScheme="green" onClick={handleReset}>
+									Reset
+								</Button>
+							</Tooltip>
+						)}
+						{hideDeleteRange && (
+							<Tooltip placement="top" hasArrow label="Delete a collection of record">
+								<Button onClick={onDeleteRangeOpen} isDisabled={selectedFlatRows.length < 2} colorScheme="green">
+									Delete Range
+								</Button>
+							</Tooltip>
+						)}
+						<ChakraAlertDialog isOpen={isDeleteRangeOpen} onClose={onDeleteRangeClose} onAccept={handleDeleteRangeAlertAccept} title={`Delete ${rows.length === selectedFlatRows.length ? 'All' : ''} ${selectedFlatRows.length} items`} />
+					</HStack>
+					{!noPaging && (
+						<HStack
+							spacing="10px"
+							display="flex"
+							gap="10px"
+							flex="1"
+							marginLeft="0px !important"
+							alignItems="center"
+							flexDirection={{
+								base: 'column',
+								md: 'row'
+							}}
+							justifyContent={{
+								base: 'flex-start',
+								md: 'flex-end'
+							}}
+						>
+							{/* Paging */}
+							<HStack marginRight="5px !important">
+								<Button colorScheme="green" onClick={() => gotoPage(0)} isDisabled={!canPreviousPage} shadow="2xl" fontSize="sm">
+									<Icon as={MdSkipPrevious} className="h-5 w-5 mt-0.5" />
+								</Button>
+								<Button colorScheme="green" onClick={() => previousPage()} isDisabled={!canPreviousPage} shadow="2xl" fontSize="sm">
+									Previous
+								</Button>
+								<Button colorScheme="green" onClick={() => nextPage()} isDisabled={!canNextPage} shadow="2xl" fontSize="sm">
+									Next
+								</Button>
+								<Button colorScheme="green" onClick={() => gotoPage(pageCount - 1)} isDisabled={!canNextPage} shadow="2xl" fontSize="sm">
+									<Icon as={MdSkipNext} className="h-5 w-5 mt-0.5" />
+								</Button>
+							</HStack>
+
+							{/* Go To Paging */}
+							{!hideButtons && (
+								<HStack>
+									<Flex alignItems="center" gap="5px">
+										<Text fontWeight="semibold" fontSize="sm">
+											Go to
+										</Text>
+										<Tooltip placement="top" hasArrow label="Jump to specific page">
+											<Input
+												type="number"
+												flex="1"
+												background="white"
+												width="60px"
+												fontSize="sm"
+												onChange={(e) => {
+													debouncedGotoPage(e.target.value);
+												}}
+												defaultValue={pageIndex + 1}
+												min={1}
+												max={pageCount}
+												shadow="2xl"
+											/>
+										</Tooltip>
+									</Flex>
+									<Tooltip placement="top" hasArrow label="Number of showing items">
+										<Select
+											shadow="2xl"
+											width="150px"
+											value={pageSize}
+											background="white"
+											fontSize="sm"
+											onChange={(e) => {
+												setPageSize(Number(e.target.value));
+											}}
+										>
+											{[5, 10, 15].map((pageSize) => (
+												<option key={pageSize} value={pageSize}>
+													Show {pageSize}
+												</option>
+											))}
+											<option key={data.length} value={data.length}>
+												Show All
+											</option>
+										</Select>
+									</Tooltip>
+								</HStack>
+							)}
+						</HStack>
+					)}
+				</HStack>
 			</>
 		</Stack>
 	);
