@@ -3,9 +3,9 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import { setPageTitle } from '../../store/common/HeaderSlice';
 import { Box, Button, Center, Flex, Heading, Stack } from '@chakra-ui/react';
+
+import { setPageTitle } from '../../modules/store/common/HeaderSlice';
 import '../../styles/NotFound.css';
 
 function NotFound() {

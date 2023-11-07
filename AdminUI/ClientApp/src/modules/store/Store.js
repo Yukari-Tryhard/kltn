@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import accessTokenReducer from './AccessTokenSlice';
+import authSlice from './AuthSlice';
 import headerSlice from './common/HeaderSlice';
 import modalSlice from './common/ModalSlice';
 import rightDrawerSlice from './common/RightDrawerSlice';
 
 const combinedReducer = {
+	authSlice: authSlice,
 	header: headerSlice,
 	rightDrawer: rightDrawerSlice,
-	modal: modalSlice,
-	accessToken: accessTokenReducer
+	modal: modalSlice
 };
 
 export const store = configureStore({

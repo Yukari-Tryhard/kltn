@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 
 import Footer from '../common/features/auth/Footer';
 import Header from '../common/features/auth/Header';
-import background from '../assets/bg.png';
+import background from '../assets/images/bg.png';
 
 function AuthRoute() {
 	return (

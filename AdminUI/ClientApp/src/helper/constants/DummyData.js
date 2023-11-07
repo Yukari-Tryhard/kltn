@@ -121,5 +121,26 @@ module.exports = Object.freeze({
 			phoneNumber: '3035558765',
 			active: false
 		}
+	],
+
+	TRUNK_MANAGEMENT: [
+		{
+			trunkId: 1001,
+			trunkName: 'trunkFPT',
+			trunkProvider: 'FPT',
+			status: true,
+			companyName: 'Dev Company',
+			active: true
+		}
+	],
+
+	PHONE_MANAGEMENT: [
+		{
+			phoneId: 1001,
+			companyName: 'Dev Company',
+			phoneNumber: '84937851132',
+			provider: 'FPT',
+			trunkName: 'trunkFPT'
+		}
 	]
 });

@@ -31,7 +31,7 @@ import { MdOutlineAlternateEmail } from 'react-icons/md';
 import { AiFillPhone } from 'react-icons/ai';
 import { RiFolderUserLine } from 'react-icons/ri';
 
-import { showNotification } from '../../../store/common/HeaderSlice';
+import { showNotification } from '../../../modules/store/common/HeaderSlice';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FormTextField from '../../components/field/FormTextField';
 import ChakraAlertDialog from '../../components/dialog/ChakraAlertDialog';

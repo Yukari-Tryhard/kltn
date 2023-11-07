@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { MODAL_BODY_TYPES } from '../helper/GlobalConstantUtil';
+import { MODAL_BODY_TYPES } from '../helper/constants/GlobalConstantUtil';
 
-import { closeModal } from '../store/common/ModalSlice';
-import ConfirmationModalBody from '../store/common/components/ConfirmationModalBody';
+import { closeModal } from '../modules/store/common/ModalSlice';
+import ConfirmationModalBody from '../modules/store/common/components/ConfirmationModalBody';
 // import AddLeadModalBody from '../features/leads/components/AddLeadModalBody';
 
 function ModalLayout() {

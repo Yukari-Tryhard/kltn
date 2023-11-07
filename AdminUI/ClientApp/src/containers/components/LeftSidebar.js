@@ -8,8 +8,8 @@ import { Sidebar, SubMenu, Menu, MenuItem, useProSidebar } from 'react-pro-sideb
 
 import { useMutation } from 'react-query';
 
-import LoadingSpinner from '../common/components/LoadingSpinner';
-import routes from '../routes/AppSidebar';
+import LoadingSpinner from '../../common/components/LoadingSpinner';
+import routes from '../../routes/AppSidebar';
 
 function LeftSidebar() {
 	const [userAvatar, setUserAvatar] = useState();

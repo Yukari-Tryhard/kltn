@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../helper/GlobalConstantUtil';
+import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../../helper/constants/GlobalConstantUtil';
 // import { deleteLead } from '../../leads/leadSlice';
 import { showNotification } from '../HeaderSlice';
 

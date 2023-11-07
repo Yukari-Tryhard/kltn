@@ -1,4 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
+
 import Subtitle from '../typography/Subtitle';
 
 function TitleCard({ title, children, topMargin, TopSideButtons }) {
@@ -21,7 +22,7 @@ function TitleCard({ title, children, topMargin, TopSideButtons }) {
 
 			<div className="divider mt-2"></div>
 
-			{/** Card Body */}
+			{/* Card Body */}
 			<div className="h-full w-full pb-6 bg-base-100">{children}</div>
 		</div>
 	);

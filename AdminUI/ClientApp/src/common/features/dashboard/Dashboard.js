@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import TitleCard from '../../components/cards/TitleCard';
-import { showNotification } from '../../../store/common/HeaderSlice';
+import { showNotification } from '../../../modules/store/common/HeaderSlice';
 
 const INITIAL_DASHBOARD_LIST = [
 	{ name: 'Asterisk', icon: 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Eo_circle_orange_asterisk.svg', isActive: true, description: 'DEAD' },

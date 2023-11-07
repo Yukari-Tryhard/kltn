@@ -1,10 +1,9 @@
 import XMarkIcon from '@heroicons/react/24/solid/XMarkIcon';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RIGHT_DRAWER_TYPES } from '../helper/GlobalConstantUtil';
-import NotificationBodyRightDrawer from '../store/common/components/NotificationBodyRightDrawer';
-import { closeRightDrawer } from '../store/common/RightDrawerSlice';
-// import CalendarEventsBodyRightDrawer from '../store/calendar/CalendarEventsBodyRightDrawer';
+import { RIGHT_DRAWER_TYPES } from '../../helper/constants/GlobalConstantUtil';
+import { closeRightDrawer } from '../../modules/store/common/RightDrawerSlice';
+import NotificationBodyRightDrawer from '../../modules/store/common/components/NotificationBodyRightDrawer';
 
 function RightSidebar() {
 	const { isOpen, bodyType, extraObject, header } = useSelector((state) => state.rightDrawer);

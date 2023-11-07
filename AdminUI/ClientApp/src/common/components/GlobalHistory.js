@@ -4,6 +4,5 @@ export let globalNavigate;
 
 export const GlobalHistory = () => {
 	globalNavigate = useNavigate();
-
 	return null;
 };

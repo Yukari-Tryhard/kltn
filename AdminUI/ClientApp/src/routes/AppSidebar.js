@@ -20,7 +20,7 @@ const routes = [
 		icon: <MdSupervisorAccount className={iconClasses} />
 	},
 	{
-		name: 'Phone Number ',
+		name: 'Trunk Dialing',
 		icon: <AiFillPhone className={iconClasses} />,
 		children: [
 			{

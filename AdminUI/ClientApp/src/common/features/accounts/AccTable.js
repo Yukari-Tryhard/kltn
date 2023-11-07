@@ -10,7 +10,7 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineAlternateEmail } from 'react-icons/md';
 import { BsTelephone, BsFillShieldLockFill, BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
-import { showNotification } from '../../../store/common/HeaderSlice';
+import { showNotification } from '../../../modules/store/common/HeaderSlice';
 import TitleCard from '../../components/cards/TitleCard';
 import DynamicTable from '../../components/tables/DynamicTable';
 import DynamicDrawer from '../../components/tables/DynamicDrawer';
@@ -19,7 +19,7 @@ import ChakraAlertDialog from '../../components/dialog/ChakraAlertDialog';
 
 import { Helper } from '../../../helper/Helper';
 
-import { ACCOUNT_MANAGEMENT } from '../../../helper/DummyData';
+import { ACCOUNT_MANAGEMENT } from '../../../helper/constants/DummyData';
 import AccTopSideButtons from './AccTopSideButtons';
 
 function AccTable() {

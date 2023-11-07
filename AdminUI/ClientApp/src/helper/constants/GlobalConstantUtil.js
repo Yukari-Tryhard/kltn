@@ -13,5 +13,12 @@ module.exports = Object.freeze({
 
 	CONFIRMATION_MODAL_CLOSE_TYPES: {
 		LEAD_DELETE: 'LEAD_DELETE'
+	},
+
+	AXIOS_HELPER: {
+		BEARER: 'Bearer',
+		JWT_AUTHENTICATION: 'jwt_authentication',
+		ACCESS_TOKEN: 'accessToken',
+		SIGN_IN: '/sign-in'
 	}
 });

@@ -13,9 +13,9 @@ import {
 import { Box, Flex, useToast, useDisclosure } from '@chakra-ui/react';
 import Bars3Icon from '@heroicons/react/24/outline/Bars3Icon';
 
-import AvatarWithPreview from '../common/components/AvatarWithPreview';
-import ChakraAlertDialog from '../common/components/dialog/ChakraAlertDialog';
-import LoadingSpinner from '../common/components/LoadingSpinner';
+import AvatarWithPreview from '../../common/components/AvatarWithPreview';
+import ChakraAlertDialog from '../../common/components/dialog/ChakraAlertDialog';
+import LoadingSpinner from '../../common/components/LoadingSpinner';
 
 function Header() {
 	// const dispatch = useDispatch();

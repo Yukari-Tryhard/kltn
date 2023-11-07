@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
-import { removeNotificationMessage } from '../store/common/HeaderSlice';
+import { removeNotificationMessage } from '../modules/store/common/HeaderSlice';
 
 import ModalLayout from './ModalLayout';
-import PageContent from './PageContent';
-import LeftSidebar from './LeftSidebar';
-import RightSidebar from './RightSidebar';
+import PageContent from './components/PageContent';
+import LeftSidebar from './components/LeftSidebar';
+import RightSidebar from './components/RightSidebar';
 
 function Layout() {
 	const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function Layout() {
 			{/* Right drawer - containing secondary content like notifications list etc.. */}
 			<RightSidebar />
 
-			{/** Notification layout container */}
+			{/* Notification layout container */}
 			<NotificationContainer />
 
 			{/* Modal layout container */}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Flex, Image } from '@chakra-ui/react';
-import LogoWhite from '../../../assets/Logo-white.png';
+
+import LogoWhite from '../../../assets/logos/Logo-white.png';
 
 function Header() {
 	const location = useLocation();
