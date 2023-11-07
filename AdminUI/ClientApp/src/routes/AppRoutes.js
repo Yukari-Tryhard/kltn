@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 // Importing pages
 const Login = lazy(() => import('../pages/auth/SignIn'));
@@ -17,7 +17,7 @@ const AppRoutes = () => {
 	return (
 		<Routes>
 			<Route element={<AuthLayout />}>
-				<Route path="/" element={<Login />} />
+				<Route path="*" element={<Navigate to="/sign-in" />} />
 				<Route path="sign-in" element={<Login />} />
 				<Route path="sign-up" element={<Register />} />
 			</Route>

@@ -1,9 +1,12 @@
+// Core
 import React from 'react';
 import { Text, Stack, Center, VStack, Image, Button, Heading, Flex, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Highlight } from '@chakra-ui/react';
 
+// Assets
 import firstTimeLogin from '../../assets/images/firstTimeLogin.jpg';
 import background from '../../assets/images/bg.png';
 
+// Components
 import ProfileSettings from '../../pages/home/ProfileSettings';
 
 function FirstTimeLogin() {

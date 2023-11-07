@@ -1,43 +1,42 @@
-import React, { useState } from 'react';
+// Core
+import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { toast, ToastContainer } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
+// Decoration
 import { Box, Flex, Center, Text, Heading, Stack, Button, useToast } from '@chakra-ui/react';
 import { LockIcon, AtSignIcon, ViewIcon, ViewOffIcon, StarIcon } from '@chakra-ui/icons';
-import { FaGithub } from 'react-icons/fa';
-
 import AuthTextField from '../../common/components/field/AuthTextField';
 
+// Service
+import { authService } from '../../modules/services/AuthService';
+
 const SignUp = () => {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const toast = useToast();
 
-	// const useRegisterMutation = useMutation(authService.register, {
-	// 	onSuccess: (data) => {
-	// 		toast({
-	// 			title: 'Sign Up Successfully',
-	// 			position: 'bottom-right',
-	// 			status: 'success',
-	// 			isClosable: true,
-	// 			duration: 5000
-	// 		});
-	// 	},
-	// 	onError: (error) => {
-	// 		console.log(error);
-	// 		toast({
-	// 			title: error.response.data.message,
-	// 			position: 'bottom-right',
-	// 			status: 'error',
-	// 			isClosable: true,
-	// 			duration: 5000
-	// 		});
-	// 	}
-	// });
+	const useRegisterMutation = useMutation(authService.register, {
+		onSuccess: (data) => {
+			toast({
+				title: 'Sign Up Successfully',
+				position: 'bottom-right',
+				status: 'success',
+				isClosable: true,
+				duration: 5000
+			});
+		},
+		onError: (error) => {
+			console.log(error);
+			toast({
+				title: error.response.data.message,
+				position: 'bottom-right',
+				status: 'error',
+				isClosable: true,
+				duration: 5000
+			});
+		}
+	});
 
 	return (
 		<Center minHeight="calc(100vh - 160px)" width="100vw">
@@ -64,12 +63,11 @@ const SignUp = () => {
 						})}
 						onSubmit={(values, actions) => {
 							alert(JSON.stringify(values, null, 2));
-							const newCredential = {
+							useRegisterMutation.mutate({
 								username: values.userName,
 								email: values.email,
 								password: values.password
-							};
-							//useRegisterMutation.mutate(newCredential);
+							});
 							actions.resetForm();
 						}}
 					>
@@ -83,7 +81,7 @@ const SignUp = () => {
 									type="submit"
 									bgColor="#1C6758"
 									color="whitesmoke"
-									//isLoading={useRegisterMutation.isLoading}
+									isLoading={useRegisterMutation.isLoading}
 									_hover={{
 										color: 'black',
 										background: 'whitesmoke',

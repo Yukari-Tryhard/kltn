@@ -9,7 +9,7 @@ import { AXIOS_HELPER } from '../../../helper/constants/GlobalConstantUtil';
 export const baseURL = process.env.BACKEND_URL;
 
 const cookies = new Cookies();
-const { JWT_AUTHENTICATION, ACCESS_TOKEN, BEARER, SIGN_IN } = AXIOS_HELPER;
+export const { JWT_AUTHENTICATION, ACCESS_TOKEN, BEARER, SIGN_IN } = AXIOS_HELPER;
 
 function handleAuthError() {
 	cookies.remove(JWT_AUTHENTICATION);

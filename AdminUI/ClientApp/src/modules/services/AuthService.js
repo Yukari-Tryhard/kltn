@@ -1,7 +1,10 @@
-import axiosBase, { cookies, jwtDecode, baseURL, JWT_AUTHENTICATION, ACCESS_TOKEN, SIGN_IN } from './common/AxiosInstance';
+import jwtDecode from 'jwt-decode';
+import Cookies from 'universal-cookie';
+import axiosBase, { baseURL, JWT_AUTHENTICATION, ACCESS_TOKEN, SIGN_IN } from './common/AxiosInstance';
 import { globalNavigate } from '../../common/components/GlobalHistory';
 
 const endPoint = baseURL + '/auth';
+const cookies = new Cookies();
 
 const login = async ({ email, password }) => {
 	try {

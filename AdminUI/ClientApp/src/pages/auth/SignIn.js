@@ -1,73 +1,71 @@
+// Core
 import React, { useEffect } from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMutation, useQueryClient } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
+
+// Network core
 import Cookies from 'universal-cookie';
 import jwtDecode from 'jwt-decode';
+import * as Yup from 'yup';
 
+// Decoration
 import { Box, Flex, Center, Text, Heading, Stack, Button, useToast } from '@chakra-ui/react';
 import { LockIcon, AtSignIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-
 import AuthTextField from '../../common/components/field/AuthTextField';
-import Header from '../../common/features/auth/Header';
 
-// import { authService } from '../../services/auth/auth';
-// import { permissionService } from '../../services/permission/permission';
-// import { profileService } from '../../services/setting/profile';
+// Service
+import { authService } from '../../modules/services/AuthService';
+import { profileService } from '../../modules/services/ProfileService';
 
-const SignIn = () => {
-	const dispatch = useDispatch();
+function SignIn() {
 	const navigate = useNavigate();
 	const toast = useToast();
 	const queryClient = useQueryClient();
 	const cookies = new Cookies();
 
-	// const getUserPermission = useMutation(permissionService.getPermission, {
-	// 	onSuccess: (data) => {
-	// 		localStorage.setItem('userPermission', JSON.stringify(data.result));
-	// 	}
-	// });
+	const useLoginMutation = useMutation(authService.login, {
+		onSuccess: async (data) => {
+			// Set cookies
+			const { refresh, access } = data;
+			const decoded = jwtDecode(refresh);
+			cookies.set('jwt_authentication', refresh, {
+				expires: new Date(decoded.exp * 1000)
+			});
+			localStorage.setItem('accessToken', JSON.stringify(access));
+			const decodeData = jwtDecode(access);
+			queryClient.setQueryData(['userDecodeData'], decodeData);
 
-	// const useLoginMutation = useMutation(authService.login, {
-	// 	onSuccess: async (data) => {
-	// 		const { refresh, access } = data;
-	// 		const decoded = jwtDecode(refresh);
-	// 		cookies.set('jwt_authentication', refresh, {
-	// 			expires: new Date(decoded.exp * 1000)
-	// 		});
-	// 		localStorage.setItem('accessToken', JSON.stringify(access));
-	// 		const decodeData = jwtDecode(access);
-	// 		queryClient.setQueryData(['userDecodeData'], decodeData);
-	// 		await permissionService.getPermission();
-	// 		const isFirstTimeLogin = await profileService.validateFirstTimeLogin();
-	// 		if (isFirstTimeLogin && isFirstTimeLogin.result) {
-	// 			navigate('/first-time-login');
-	// 			localStorage.setItem('isFirstTimeLogin', true);
-	// 		} else {
-	// 			navigate('/dashboard');
-	// 			localStorage.setItem('isFirstTimeLogin', false);
-	// 		}
-	// 		toast({
-	// 			title: 'Sign In Successfully',
-	// 			position: 'bottom-right',
-	// 			status: 'success',
-	// 			isClosable: true,
-	// 			duration: 5000
-	// 		});
-	// 	},
-	// 	onError: (error) => {
-	// 		console.log(error);
-	// 		toast({
-	// 			title: error.response.data.message,
-	// 			position: 'bottom-right',
-	// 			status: 'error',
-	// 			isClosable: true,
-	// 			duration: 5000
-	// 		});
-	// 	}
-	// });
+			// Check first time login
+			const isFirstTimeLogin = await profileService.validateFirstTimeLogin();
+			if (isFirstTimeLogin && isFirstTimeLogin.result) {
+				navigate('/first-time-login');
+				localStorage.setItem('isFirstTimeLogin', true);
+			} else {
+				navigate('app/dashboard');
+				localStorage.setItem('isFirstTimeLogin', false);
+			}
+
+			// Show toast
+			toast({
+				title: 'Sign In Successfully',
+				position: 'bottom-right',
+				status: 'success',
+				isClosable: true,
+				duration: 5000
+			});
+		},
+		onError: (error) => {
+			console.log(error);
+			toast({
+				title: error.response.data.message,
+				position: 'bottom-right',
+				status: 'error',
+				isClosable: true,
+				duration: 5000
+			});
+		}
+	});
 
 	const initialValues = { email: '', password: '' };
 	const validationSchema = Yup.object().shape({
@@ -90,12 +88,11 @@ const SignIn = () => {
 						initialValues={initialValues}
 						validationSchema={validationSchema}
 						onSubmit={(values, actions) => {
-							// const credential = {
-							// 	email: values.email,
-							// 	password: values.password
-							// };
-							// useLoginMutation.mutate(credential);
-							// actions.resetForm();
+							useLoginMutation.mutate({
+								email: values.email,
+								password: values.password
+							});
+							actions.resetForm();
 						}}
 					>
 						{(formik) => (
@@ -106,7 +103,7 @@ const SignIn = () => {
 									type="submit"
 									bgColor="#1C6758"
 									color="whitesmoke"
-									//isLoading={useLoginMutation.isLoading}
+									isLoading={useLoginMutation.isLoading}
 									_hover={{
 										color: 'black',
 										background: 'whitesmoke',
@@ -128,6 +125,6 @@ const SignIn = () => {
 			</Box>
 		</Center>
 	);
-};
+}
 
 export default SignIn;
