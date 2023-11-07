@@ -67,6 +67,7 @@ const convertDateISOToDDMMyyyy = (dateISO) => {
 //* Decodes the access token stored in local storage
 const getUseDecodeInfo = () => {
 	const accessTokenJSON = localStorage.getItem('accessToken');
+	if (!accessTokenJSON) return null;
 	const accessToken = JSON.parse(accessTokenJSON);
 	var decoded = jwtDecode(accessToken);
 	return decoded;

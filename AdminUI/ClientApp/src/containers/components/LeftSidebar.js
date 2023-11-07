@@ -1,49 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { NavLink, Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
+import React from 'react';
+import { NavLink, Outlet, useLocation, Link } from 'react-router-dom';
 
-import { Box, Flex, Heading, Icon, useToast, Tooltip, Spacer } from '@chakra-ui/react';
+import { Box, Flex, Heading, Icon, Tooltip, Spacer } from '@chakra-ui/react';
 import { IoReorderThreeOutline } from 'react-icons/io5';
 import { Sidebar, SubMenu, Menu, MenuItem, useProSidebar } from 'react-pro-sidebar';
 
-import { useMutation } from 'react-query';
-
-import LoadingSpinner from '../../common/components/LoadingSpinner';
 import routes from '../../routes/AppSidebar';
 
 function LeftSidebar() {
-	const [userAvatar, setUserAvatar] = useState();
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
 	const location = useLocation();
-	const toast = useToast();
 	const { collapseSidebar, collapsed } = useProSidebar();
 
-	const useLogoutMutation = useMutation({
-		onSuccess: (data) => {
-			//dispatch(setUser(null));
-			navigate('/sign-in');
-			toast({
-				title: 'Sign Out Successfully',
-				position: 'bottom-right',
-				status: 'success',
-				isClosable: true,
-				duration: 5000
-			});
-		},
-		onError: (error) => {
-			console.log(error);
-		}
-	});
-
-	useEffect(() => {}, []);
-
-	if (useLogoutMutation.isLoading)
-		return (
-			<Box h="100vh" w="100vw">
-				<LoadingSpinner />
-			</Box>
-		);
 	return (
 		<div
 			className=" justify-between bg-base-100 z-10 shadow-md"

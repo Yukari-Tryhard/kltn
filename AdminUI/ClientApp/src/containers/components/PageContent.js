@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
 import Header from './Header';
-
-import routes from '../../routes/ProtectedRoutes';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
 
+import routes from '../../routes/ProtectedRoutes';
 const Page404 = lazy(() => import('../../pages/error/NotFound'));
 
 function PageContent() {

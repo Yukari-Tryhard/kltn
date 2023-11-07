@@ -3,7 +3,7 @@ import axiosBase, { baseURL } from './common/AxiosInstance';
 
 const endPoint = baseURL + '/profile';
 
-const useGetProfileDetail = (id) => {
+export const useGetProfileDetail = (id) => {
 	return useQuery(['detail', id], () => getProfileDetail(id), {
 		refetchOnWindowFocus: false,
 		retry: 1
@@ -53,7 +53,6 @@ const validateFirstTimeLogin = async () => {
 
 export const profileService = {
 	getProfileDetail,
-	useGetProfileDetail,
 	saveProfileDetail,
 	uploadProfileImages,
 	validateFirstTimeLogin
