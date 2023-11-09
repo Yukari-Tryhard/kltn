@@ -9,7 +9,7 @@ namespace CallFlowUI.CQRS.Queries.CallFlowData.AddCallFlowDataCommand
 {
     public class GetCallFlowDataByIdQuery : IRequest<ObjectResult>
     {
-        public string? Id;
+        public string? Id { get; set; }
     }
     public class GetCallFlowDataByIdQueryHandler : IRequestHandler<GetCallFlowDataByIdQuery, ObjectResult>
     {
@@ -24,6 +24,12 @@ namespace CallFlowUI.CQRS.Queries.CallFlowData.AddCallFlowDataCommand
         {
             // Retrieve all CallFlowData from the database
             try{
+                if (String.IsNullOrEmpty(request.Id))
+                {
+                    var errorObjectResult = new ObjectResult("Missing Id field");
+                    errorObjectResult.StatusCode = StatusCodes.Status400BadRequest;
+                    return errorObjectResult;
+                }
                 int id = Int32.Parse(request.Id);
                 var callflowData = await _context.CallFlowDatas
                                                 .Where(cfd => cfd.CallFlowDataId == id)

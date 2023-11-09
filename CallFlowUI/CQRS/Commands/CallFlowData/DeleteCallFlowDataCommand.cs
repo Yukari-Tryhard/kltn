@@ -11,7 +11,7 @@ namespace CallFlowUI.CQRS.Commands.Authentication.DeleteCallFlowDataCommand
 {
     public class DeleteCallFlowDataCommand : IRequest<ObjectResult>
     {
-        public int CallFlowDataId { get; set; }
+        public int? CallFlowDataId { get; set; }
     }
     public class DeleteCallFlowDataCommandHandler : IRequestHandler<DeleteCallFlowDataCommand, ObjectResult>
     {
@@ -24,6 +24,12 @@ namespace CallFlowUI.CQRS.Commands.Authentication.DeleteCallFlowDataCommand
 
         public async Task<ObjectResult> Handle(DeleteCallFlowDataCommand request, CancellationToken cancellationToken)
         {
+            if ((request.CallFlowDataId ?? 0) == 0)
+            {
+                var errorObjectResult = new ObjectResult("Missing Id field");
+                errorObjectResult.StatusCode = StatusCodes.Status400BadRequest;
+                return errorObjectResult;
+            }
             // Create a new CallFlowData entity
             var callFlowData = await _context.CallFlowDatas
             .FirstOrDefaultAsync(cfd => cfd.CallFlowDataId == request.CallFlowDataId, cancellationToken);
