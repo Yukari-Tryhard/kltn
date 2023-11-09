@@ -4,10 +4,10 @@ import debounce from 'lodash/debounce';
 // Decoration
 import { usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import { Table, Tbody, Tr, Th, Td, Thead, TableContainer, Switch, Box, Icon, Button, Text, HStack, MenuButton, MenuList, MenuItem, Menu, Stack, Flex, Input, Select, useDisclosure, Tooltip, Portal } from '@chakra-ui/react';
+
 // Icons
 import { FiMoreVertical } from 'react-icons/fi';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
-import { AiFillFilter } from 'react-icons/ai';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
 // Components
@@ -78,7 +78,7 @@ function DynamicTable(props) {
 					id: 'action',
 					Header: ({ getToggleAllRowsSelectedProps }) => (
 						<Flex gap="5px">
-							<Text color="white" fontWeight="600" fontSize="1.1rem">
+							<Text color="white" fontWeight="600" fontSize="md">
 								Action
 							</Text>
 						</Flex>
@@ -147,18 +147,6 @@ function DynamicTable(props) {
 		filterAndSorter: initialData
 	});
 
-	const handleFilter = (sortAndFilterValue, accessor, value) => {
-		if (Object.is(pagingObject.filterAndSorter[accessor].filterType, sortAndFilterValue)) {
-			return;
-		}
-		setPagingObject((prev) => {
-			const updatedFilterAndSorter = { ...prev.filterAndSorter };
-			updatedFilterAndSorter[accessor].value = value;
-			updatedFilterAndSorter[accessor].filterType = sortAndFilterValue;
-			return { ...prev, filterAndSorter: updatedFilterAndSorter };
-		});
-	};
-
 	const debouncedGotoPage = debounce((value) => {
 		const pageNumber = value && Number(value) && value > 0 ? value - 1 : 0;
 		gotoPage(pageNumber);
@@ -172,7 +160,6 @@ function DynamicTable(props) {
 	const handleSort = (column, value) => {
 		setPagingObject((prev) => {
 			let updatedFilterAndSorter = { ...prev.filterAndSorter };
-			// updatedFilterAndSorter[accessor].value=value
 			column.toggleSortBy();
 			for (let key in updatedFilterAndSorter) {
 				if (updatedFilterAndSorter[key].sorterType !== '') {
@@ -180,17 +167,6 @@ function DynamicTable(props) {
 				}
 			}
 			updatedFilterAndSorter[column.id].sorterType = value;
-			return { ...prev, filterAndSorter: updatedFilterAndSorter };
-		});
-	};
-
-	const handleOnBlurInputHeaderField = (column, value) => {
-		if (Object.is(pagingObject.filterAndSorter[column.id].value, value)) {
-			return;
-		}
-		setPagingObject((prev) => {
-			let updatedFilterAndSorter = { ...prev.filterAndSorter };
-			updatedFilterAndSorter[column.id].value = value;
 			return { ...prev, filterAndSorter: updatedFilterAndSorter };
 		});
 	};
@@ -237,58 +213,9 @@ function DynamicTable(props) {
 											return (
 												<Th textTransform="capitalize" fontSize="sm" color="white" {...column?.getHeaderProps()} display={column?.hidden ? 'none' : 'undefine'} bg="#1C6758">
 													<Flex alignItems="center" gap="5px">
-														{column?.haveFilter && (
-															<Menu>
-																<MenuButton>
-																	<Icon color="white" boxSize="20px" as={AiFillFilter} />
-																</MenuButton>
-																<MenuList color="black">
-																	{column?.haveFilter?.filterType?.array.map((selectValue, index) => (
-																		<MenuItem
-																			key={index}
-																			background={pagingObject?.filterAndSorter[column?.id].filterType === selectValue ? 'antiquewhite' : 'none'}
-																			onClick={() => handleFilter(selectValue, column?.id, null)}
-																		>
-																			{selectValue}
-																		</MenuItem>
-																	))}
-																</MenuList>
-															</Menu>
-														)}
-														{column?.haveSort && column?.haveFilter ? (
-															column?.haveFilter?.filterType?.type === 'dateTime' ? (
-																<Input
-																	_placeholder={{
-																		color: 'white',
-																		fontWeight: 'normal',
-																		fontSize: '1.2rem'
-																	}}
-																	variant="flushed"
-																	type="date"
-																	onChange={(e) => {
-																		handleOnBlurInputHeaderField(column, e.target.value);
-																	}}
-																	placeholder={column?.render('Header')}
-																/>
-															) : (
-																<Input
-																	_placeholder={{
-																		color: 'white',
-																		fontWeight: 'normal',
-																		fontSize: '1.2rem'
-																	}}
-																	variant="flushed"
-																	onBlur={(e) => {
-																		handleOnBlurInputHeaderField(column, e.target.value);
-																	}}
-																	placeholder={column?.render('Header')}
-																/>
-															)
-														) : (
-															<Text color="white" fontWeight="600" fontSize="1.1rem">
-																{column?.Header}
-															</Text>
-														)}
+														<Text color="white" fontWeight="600" fontSize="md">
+															{column?.Header}
+														</Text>
 														{column?.haveSort && (
 															<Flex color="white" cursor="pointer" flexDirection="column">
 																{column?.isSorted ? (
@@ -298,7 +225,7 @@ function DynamicTable(props) {
 																				column?.getSortByToggleProps();
 																				handleSort(column, '');
 																			}}
-																			boxSize="20px"
+																			boxSize="18px"
 																			as={FaSortDown}
 																		/>
 																	) : (
@@ -307,7 +234,7 @@ function DynamicTable(props) {
 																				column?.getSortByToggleProps();
 																				handleSort(column, 'des');
 																			}}
-																			boxSize="20px"
+																			boxSize="18px"
 																			as={FaSortUp}
 																		/>
 																	)
@@ -317,7 +244,7 @@ function DynamicTable(props) {
 																			column?.getSortByToggleProps();
 																			handleSort(column, 'asc');
 																		}}
-																		boxSize="20px"
+																		boxSize="18px"
 																		as={FaSort}
 																	/>
 																)}
@@ -347,7 +274,7 @@ function DynamicTable(props) {
 													<Td {...cell?.getCellProps()} display={cell?.column?.hidden ? 'none' : 'undefine'}>
 														{cell?.column?.dataType === 'dateTime' && cell?.value instanceof Date ? (
 															<Box width={cell?.column?.cellWidth ? cell?.column?.cellWidth : 'none'} textAlign={cell?.column?.textAlign ? cell?.column?.textAlign : 'none'} textOverflow="ellipsis" overflow="hidden">
-																<Text fontSize="1rem" fontWeight="normal">
+																<Text fontSize="sm" fontWeight="normal">
 																	{Helper.getMomentDateFormat(cell?.value)}
 																</Text>
 															</Box>
@@ -357,7 +284,7 @@ function DynamicTable(props) {
 																textAlign={cell?.column?.textAlign ? cell?.column?.textAlign : 'none'}
 																textOverflow="ellipsis"
 																overflow="hidden"
-																fontSize="1rem"
+																fontSize="sm"
 																fontWeight="normal"
 															>
 																<Switch id="isChecked" isChecked={cell?.value} colorScheme="teal" size="lg" onChange={() => handleSwitchStatus(cell?.row?.index)} />
@@ -368,7 +295,7 @@ function DynamicTable(props) {
 																textAlign={cell?.column?.textAlign ? cell?.column?.textAlign : 'none'}
 																textOverflow="ellipsis"
 																overflow="hidden"
-																fontSize="1rem"
+																fontSize="sm"
 																fontWeight="normal"
 															>
 																{cell?.render('Cell')}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { useMutation, useQueryClient } from 'react-query';
@@ -282,8 +283,8 @@ function ProfileSettings() {
 								</Flex>
 								<Box w={{ base: '100%', md: '80%' }} height="360px">
 									<ImagesUploading images={images} onChange={onChange} maxNumber={maxNumber} />
-									</Box>
-								</Flex>
+								</Box>
+							</Flex>
 						</Flex>
 					</Stack>
 				</Flex>

@@ -34,14 +34,19 @@ const deleteAccount = async (id) => {
 	return response.data;
 };
 
-const useGetListAccount = () => {
+const updateAccountStatus = async (id) => {
+	const response = await axiosBase.post(`${endPoint}/update-status/${id}`);
+	return response.data;
+};
+
+export const useGetListAccount = () => {
 	return useQuery('', getListAccount, {
 		refetchOnWindowFocus: false,
 		retry: 3
 	});
 };
 
-const useGetAccountDetail = (id) => {
+export const useGetAccountDetail = (id) => {
 	return useQuery(['detail', id], getAccountDetail(id), {
 		refetchOnWindowFocus: false,
 		retry: 3
@@ -51,9 +56,8 @@ const useGetAccountDetail = (id) => {
 export const accountService = {
 	getAccountDetail,
 	getListAccount,
-	useGetAccountDetail,
-	useGetListAccount,
 	createAccount,
 	saveAccount,
+	updateAccountStatus,
 	deleteAccount
 };
