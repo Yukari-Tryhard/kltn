@@ -10,7 +10,7 @@ namespace CallFlowApplication.Entities
 {
     public class CallFlowData : BaseAuditableEntity
     {
-        public int CallFlowDataId;
-        public string FlowJson;
+        public int CallFlowDataId { get; set; }
+        public string? FlowJson { get; set; }
     }
 }

@@ -10,9 +10,9 @@ namespace CallFlowApplication.Entities
 {
     public class CallFlowLogins : BaseAuditableEntity
     {
-        public string LoginProvider;
-        public string ProviderToken;
-        public string ProviderName;
+        public string? LoginProvider { get; set; }
+        public string? ProviderToken { get; set; }
+        public string? ProviderName { get; set; }
         public User User;
     }
 }

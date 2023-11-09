@@ -2,7 +2,6 @@ using CallFlowArchitecture.Persistence;
 using CallFlowApplication.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using XAct;
 
