@@ -1,13 +1,11 @@
-using CallFlowApplication.Entities;
 using CallFlowArchitecture.Persistence;
-using CallFlowUI.CQRS.Commands.Authentication.SignUpWithEmailCommand;
-using CallFlowUI.CQRS.Queries.Authentication;
+using CallFlowApplication.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity;
 using XAct;
 
-namespace CallFlowUI.CQRS.Commands.Authentication.AddCallFlowDataCommand
+namespace CallFlowUI.CQRS.Commands.CallFlowData.AddCallFlowDataCommand
 {
     public class AddCallFlowDataCommand : IRequest<ObjectResult>
     {
@@ -25,7 +23,7 @@ namespace CallFlowUI.CQRS.Commands.Authentication.AddCallFlowDataCommand
         public async Task<ObjectResult> Handle(AddCallFlowDataCommand request, CancellationToken cancellationToken)
         {
             // Create a new CallFlowData entity
-            var newCallFlowData = new CallFlowData
+            var newCallFlowData = new CallFlowApplication.Entities.CallFlowData
             {
                 FlowJson = request.FlowJson
             };

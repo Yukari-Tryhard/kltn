@@ -1,89 +1,39 @@
-import { Button, Card, CardBody, CardFooter, Heading, SimpleGrid, Text, Icon, Center, Box, Flex } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { BsArrowRightCircle } from 'react-icons/bs';
-import { Helper } from '../../helper';
+import React from 'react';
+import { Card, CardBody, SimpleGrid, Box, Flex, Center, Image } from '@chakra-ui/react';
+import Title from './typography/Title';
+import Subtitle from './typography/Subtitle';
 
 function DashboardCardGrid({ dashboardData }) {
-	const [userRole, setUserRole] = useState('');
-	useEffect(() => {
-		setUserRole(Helper.getUserRole());
-	}, []);
-
 	return (
-		<SimpleGrid spacing={4} gridTemplateColumns="repeat(auto-fit, minmax(325px,1fr))">
+		<SimpleGrid spacing={4} gridTemplateColumns="repeat(auto-fit, minmax(325px,1fr))" className="mt-2">
 			{dashboardData &&
-				dashboardData.map((item, index) => {
-					if (item.roleCanAccess) {
-						return (
-							item.roleCanAccess.includes(userRole?.role) && (
-								<Card shadow="2xl" key={index} bgColor={item.bgColor}>
-									<CardBody color="white" paddingBottom={0}>
-										<Flex alignItems="center">
-											<Box display="flex" gap={2} flexDirection="column">
-												<Heading size="md"> {item.title}</Heading>
-												<Text>{item.content}</Text>
-											</Box>
-											<Flex justifyContent="flex-end" flex="1">
-												{item.icon}
-											</Flex>
+				dashboardData.map((item, index) => (
+					<Card shadow="2xl" key={index}>
+						<CardBody color="black">
+							<Flex flexDirection="row" minWidth="max-content" alignItems="center" gap="2">
+								<Center w="100px">
+									<Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" p="6" bg={item.bgColor}>
+										<Image alt="icon" src={item.icon} className="w-14 h-14 inline-block" />
+									</Box>
+								</Center>
+								<Center>
+									<Flex flexDirection="column" gap="10px" p={1}>
+										<Flex gap="10px" w="fit-content">
+											<Box w="10px" bg="green.700" borderRadius="5px" />
+											<Title>{item.title}</Title>
 										</Flex>
-									</CardBody>
-									<CardFooter>
-										<Center width="100%">
-											<Link style={{ width: '100%' }} to={item.link}>
-												<Button
-													width="100%"
-													display="flex"
-													gap={2}
-													_hover={{
-														backgroundColor: 'white'
-													}}
-												>
-													<Text>{item.linkTitle}</Text>
-													<Icon as={BsArrowRightCircle} boxSize={5} />
-												</Button>
-											</Link>
-										</Center>
-									</CardFooter>
-								</Card>
-							)
-						);
-					} else {
-						return (
-							<Card shadow="2xl" key={index} bgColor={item.bgColor}>
-								<CardBody color="white" paddingBottom={0}>
-									<Flex alignItems="center">
-										<Box display="flex" gap={2} flexDirection="column">
-											<Heading size="md"> {item.title}</Heading>
-											<Text>{item.content}</Text>
-										</Box>
-										<Flex justifyContent="flex-end" flex="1">
-											{item.icon}
+										<Flex flexDirection="row">
+											<Subtitle styleClass="text-left mr-2">Status:</Subtitle>
+											<div className="text-left mr-2 text-xl font-bold" style={{ fontWeight: 'bold', color: item.isActive ? 'green' : 'red' }}>
+												{item.isActive ? 'RUNNING' : 'DEAD'}
+											</div>
 										</Flex>
 									</Flex>
-								</CardBody>
-								<CardFooter>
-									<Center width="100%">
-										<Link style={{ width: '100%' }} to={item.link}>
-											<Button
-												width="100%"
-												display="flex"
-												gap={2}
-												_hover={{
-													backgroundColor: 'white'
-												}}
-											>
-												<Text>{item.linkTitle}</Text>
-												<Icon as={BsArrowRightCircle} boxSize={5} />
-											</Button>
-										</Link>
-									</Center>
-								</CardFooter>
-							</Card>
-						);
-					}
-				})}
+								</Center>
+							</Flex>
+						</CardBody>
+					</Card>
+				))}
 		</SimpleGrid>
 	);
 }

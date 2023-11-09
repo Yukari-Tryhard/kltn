@@ -21,5 +21,20 @@ module.exports = Object.freeze({
 		JWT_AUTHENTICATION: 'jwt_authentication',
 		ACCESS_TOKEN: 'accessToken',
 		SIGN_IN: '/sign-in'
-	}
+	},
+
+	DASHBOARD_DATA: [
+		{
+			title: 'Asterisk',
+			icon: 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Eo_circle_orange_asterisk.svg',
+			bgColor: '#ffff',
+			isActive: false
+		},
+		{
+			title: 'Asterisk Connector',
+			icon: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Globe_icon_2.svg',
+			bgColor: '#ffff',
+			isActive: false
+		}
+	]
 });
