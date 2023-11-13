@@ -25,7 +25,10 @@ namespace CallFlowArchitecture
         public DbSet<CallFlowRole> CallFlowRoles { get; set; }
         public DbSet<CallFlowLogins> CallFlowLogins { get; set; }
         public DbSet<CallFlowData> CallFlowDatas {get; set;}
-
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<PersonalInfo> PersonalInfos { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Trunk> Trunks { get; set; }
 
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

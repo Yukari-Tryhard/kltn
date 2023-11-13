@@ -3,34 +3,35 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CallFlowUI.CQRS.Queries.CallFlowUser
+namespace CallFlowUI.CQRS.Queries.Trunk
 {
-    public class GetCallFlowUserByIdQuery : IRequest<ObjectResult>
+    public class GetTrunkByIdQuery : IRequest<ObjectResult>
     {
         public string? Id { get; set; }
     }
-    public class GetCallFlowUserByIdQueryHandler : IRequestHandler<GetCallFlowUserByIdQuery, ObjectResult>
+    public class GetTrunkByIdQueryHandler : IRequestHandler<GetTrunkByIdQuery, ObjectResult>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetCallFlowUserByIdQueryHandler(IApplicationDbContext context)
+        public GetTrunkByIdQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ObjectResult> Handle(GetCallFlowUserByIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<ObjectResult> Handle(GetTrunkByIdQuery request, CancellationToken cancellationToken)
         {
             try
-            {   
-                if (String.IsNullOrEmpty(request.Id)){
+            {
+                if (String.IsNullOrEmpty(request.Id))
+                {
                     var errorObjectResult = new ObjectResult("Missing Id field");
                     errorObjectResult.StatusCode = StatusCodes.Status400BadRequest;
                     return errorObjectResult;
                 }
                 int id = Int32.Parse(request.Id);
-                var callflowUser = await _context.CallFlowUsers
-                    .Select(u => new { u.UserId, u.Email, u.UserName, u.isActive })
-                    .Where(cfd => cfd.UserId == id)
+                var callflowUser = await _context.Trunks
+                    .Where(t => t.TrunkId == id)
                     .FirstOrDefaultAsync();
                 var result = new ObjectResult(callflowUser);
                 return result;

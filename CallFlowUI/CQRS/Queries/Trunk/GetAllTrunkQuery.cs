@@ -3,30 +3,29 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CallFlowUI.CQRS.Queries.CallFlowUser
+namespace CallFlowUI.CQRS.Queries.Trunk
 {
-    public class GetAllCallFlowUserQuery : IRequest<ObjectResult>
+    public class GetAllTrunkQuery : IRequest<ObjectResult>
     {
 
     }
-    public class GetAllCallFlowUserQueryHandler : IRequestHandler<GetAllCallFlowUserQuery, ObjectResult>
+    public class GetAllTrunkQueryHandler : IRequestHandler<GetAllTrunkQuery, ObjectResult>
     {
         private readonly IApplicationDbContext _context;
-            
-        public GetAllCallFlowUserQueryHandler(IApplicationDbContext context)
+
+        public GetAllTrunkQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ObjectResult> Handle(GetAllCallFlowUserQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetAllTrunkQuery request, CancellationToken cancellationToken)
         {
             // Retrieve all CallFlowData from the database
             try
             {
-                var callflowUsers = await _context.CallFlowUsers
-                    .Select(u => new {u.UserId, u.Email, u.UserName, u.isActive})
+                var trunks = await _context.Trunks
                     .ToListAsync();
-                var result = new ObjectResult(callflowUsers);
+                var result = new ObjectResult(trunks);
                 return result;
             }
             catch (Exception e)

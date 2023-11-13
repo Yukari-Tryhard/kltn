@@ -10,6 +10,8 @@ using CallFlowUI.Interface;
 using CallFlowUI.Service;
 using Hangfire;
 using Hangfire.MySql;
+using CallFlowArchitecture.DataSeeder;
+using XAct;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,8 +88,17 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html"); ;
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<KLTNContext>();
-    db.Database.EnsureCreated();
-    db.SaveChanges();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<KLTNContext>();
+        db.Database.EnsureCreated();
+        Seeder.SeedData(db);
+        db.SaveChanges();
+    }
+    catch (Exception ex)
+    {
+        // Handle any exceptions if needed
+        Console.WriteLine("An error occurred while seeding the database: " + ex.Message);
+    }
 }
 app.Run();

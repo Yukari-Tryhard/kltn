@@ -12,6 +12,5 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="Enum\" />
   </ItemGroup>
 </Project>

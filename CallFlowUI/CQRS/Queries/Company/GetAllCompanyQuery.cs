@@ -3,30 +3,29 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CallFlowUI.CQRS.Queries.CallFlowUser
+namespace CallFlowUI.CQRS.Queries.Company
 {
-    public class GetAllCallFlowUserQuery : IRequest<ObjectResult>
+    public class GetAllCompanyQuery : IRequest<ObjectResult>
     {
 
     }
-    public class GetAllCallFlowUserQueryHandler : IRequestHandler<GetAllCallFlowUserQuery, ObjectResult>
+    public class GetAllCompanyQueryHandler : IRequestHandler<GetAllCompanyQuery, ObjectResult>
     {
         private readonly IApplicationDbContext _context;
-            
-        public GetAllCallFlowUserQueryHandler(IApplicationDbContext context)
+
+        public GetAllCompanyQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ObjectResult> Handle(GetAllCallFlowUserQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetAllCompanyQuery request, CancellationToken cancellationToken)
         {
             // Retrieve all CallFlowData from the database
             try
             {
-                var callflowUsers = await _context.CallFlowUsers
-                    .Select(u => new {u.UserId, u.Email, u.UserName, u.isActive})
+                var companies = await _context.Companies
                     .ToListAsync();
-                var result = new ObjectResult(callflowUsers);
+                var result = new ObjectResult(companies);
                 return result;
             }
             catch (Exception e)

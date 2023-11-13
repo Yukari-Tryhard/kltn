@@ -1,4 +1,5 @@
-﻿using CallFlowArchitecture.Persistence;
+﻿using CallFlowApplication.Enum;
+using CallFlowArchitecture.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace CallFlowUI.CQRS.Commands.CallflowUser
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public bool IsActive { get; set; }
+        public Role? role { get; set; }
     }
     public class AddCallFlowUserCommandHandler : IRequestHandler<AddCallFlowUserCommand, ObjectResult>
     {
@@ -31,9 +33,8 @@ namespace CallFlowUI.CQRS.Commands.CallflowUser
                 Email = request.Email,
                 UserName = request.UserName,
                 HasedPassword = request.Password,
-                PhoneNumber = request.PhoneNumber,
-                Address = request.Address,
                 isActive = request.IsActive,
+                role = request.role ?? Role.NormalUser,
             };
 
             // Add the new entity to the database

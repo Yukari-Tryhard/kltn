@@ -3,36 +3,37 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CallFlowUI.CQRS.Queries.CallFlowUser
+namespace CallFlowUI.CQRS.Queries.Company
 {
-    public class GetCallFlowUserByIdQuery : IRequest<ObjectResult>
+    public class GetCompanyByIdQuery : IRequest<ObjectResult>
     {
         public string? Id { get; set; }
     }
-    public class GetCallFlowUserByIdQueryHandler : IRequestHandler<GetCallFlowUserByIdQuery, ObjectResult>
+    public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, ObjectResult>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetCallFlowUserByIdQueryHandler(IApplicationDbContext context)
+        public GetCompanyByIdQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ObjectResult> Handle(GetCallFlowUserByIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<ObjectResult> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
         {
             try
-            {   
-                if (String.IsNullOrEmpty(request.Id)){
+            {
+                if (String.IsNullOrEmpty(request.Id))
+                {
                     var errorObjectResult = new ObjectResult("Missing Id field");
                     errorObjectResult.StatusCode = StatusCodes.Status400BadRequest;
                     return errorObjectResult;
                 }
                 int id = Int32.Parse(request.Id);
-                var callflowUser = await _context.CallFlowUsers
-                    .Select(u => new { u.UserId, u.Email, u.UserName, u.isActive })
-                    .Where(cfd => cfd.UserId == id)
+                var company = await _context.Companies
+                    .Where(t => t.CompanyId == id)
                     .FirstOrDefaultAsync();
-                var result = new ObjectResult(callflowUser);
+                var result = new ObjectResult(company);
                 return result;
             }
             catch (Exception e)
