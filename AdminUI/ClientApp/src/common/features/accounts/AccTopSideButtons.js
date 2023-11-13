@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Button, Tooltip } from '@chakra-ui/react';
+import { Button, Tooltip, Flex, Stack } from '@chakra-ui/react';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import SearchBar from '../../components/field/SearchBar';
 
@@ -20,19 +20,19 @@ const AccTopSideButtons = ({ removeFilter, applySearch, onAddEditOpen }) => {
 	}, [applySearch, removeAppliedFilter, searchText]);
 
 	return (
-		<div style={{ display: 'flex', alignItems: 'center' }}>
-			{/* Searchbar */}
-			<SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
+		<Flex align="center">
+			<Stack direction="row" spacing={4}>
+				{/* Searchbar */}
+				<SearchBar searchText={searchText} setSearchText={setSearchText} />
 
-			{/* AccTopSideButtons */}
-			<div className="inline-block float-right">
-				<Tooltip placement="top" hasArrow label="Add new record for table">
-					<Button leftIcon={<IoIosAddCircleOutline className="h-5 w-5 mt-0.5" />} shadow="2xl" colorScheme="green" fontSize="sm" width="120px" onClick={onAddEditOpen}>
+				{/* AccTopSideButtons */}
+				<Tooltip label="Add new record for table" hasArrow>
+					<Button leftIcon={<IoIosAddCircleOutline size={18} className="mt-0.5" />} shadow="2xl" colorScheme="green" fontSize="xs" w="110px" onClick={onAddEditOpen}>
 						Add New
 					</Button>
 				</Tooltip>
-			</div>
-		</div>
+			</Stack>
+		</Flex>
 	);
 };
 

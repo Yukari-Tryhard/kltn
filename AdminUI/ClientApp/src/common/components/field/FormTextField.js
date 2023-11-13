@@ -173,7 +173,7 @@ function FormTextField(props) {
 		);
 	} else {
 		return (
-			<FormControl isReadOnly={isReadOnly} isRequired={isRequired} isDisabled={isDisabled} isInvalid={meta.error && meta.touched}>
+			<FormControl isReadOnly={isReadOnly} isRequired={isRequired} isDisabled={isDisabled} isInvalid={meta.error && meta.touched} >
 				{label && <FormLabel>{label}</FormLabel>}
 				<InputGroup>
 					{leftIcon && <InputLeftElement pl={2} children={leftIcon} />}

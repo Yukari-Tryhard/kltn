@@ -13,7 +13,7 @@ function DashboardCardGrid({ dashboardData }) {
 							<Flex flexDirection="row" minWidth="max-content" alignItems="center" gap="2">
 								<Center w="100px">
 									<Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" p="6" bg={item.bgColor}>
-										<Image alt="icon" src={item.icon} className="w-14 h-14 inline-block" />
+										<Image alt="icon" src={item.icon} boxSize="52px" />
 									</Box>
 								</Center>
 								<Center>
