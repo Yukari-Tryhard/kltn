@@ -12,10 +12,11 @@ function LeftSidebar() {
 	const { collapseSidebar, collapsed } = useProSidebar();
 
 	return (
-		<div
-			className=" justify-between bg-base-100 z-10 shadow-md"
+		<Flex
+			justify={collapsed ? 'center' : 'start'}
+			alignItems="start"
+			className=" bg-base-100 z-10 shadow-md"
 			style={{
-				display: 'flex',
 				height: '100%',
 				width: '100%'
 			}}
@@ -143,7 +144,7 @@ function LeftSidebar() {
 			<Box flex="1" backgroundColor="bg-base-100" minWidth="0" minHeight="100vh" backgroundPosition="bottom" backgroundSize="auto">
 				<Outlet />
 			</Box>
-		</div>
+		</Flex>
 	);
 }
 

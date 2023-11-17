@@ -1,16 +1,21 @@
 // Core
 import React from 'react';
-import { Text, Stack, Center, VStack, Image, Button, Heading, Flex, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Highlight } from '@chakra-ui/react';
+import { Text, Stack, Center, VStack, Image, Button, Heading, Flex, Box, Modal, ModalOverlay, useBreakpointValue, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Highlight, HStack } from '@chakra-ui/react';
 
 // Assets
 import firstTimeLogin from '../../assets/images/firstTimeLogin.jpg';
 import background from '../../assets/images/bg.png';
 
 // Components
-import ProfileSettings from '../../pages/home/ProfileSettings';
+import ProfileSettings from '../../common/features/settings/ProfileSettings';
 
 function FirstTimeLogin() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [scrollBehavior, setScrollBehavior] = React.useState('inside');
+
+	const btnRef = React.useRef(null);
+	const boxWidth = useBreakpointValue({ base: '100%', md: '75%', lg: '50%' });
+	const boxHeight = useBreakpointValue({ base: '100%', md: '75%', lg: '50%' });
 
 	return (
 		<>
@@ -37,19 +42,26 @@ function FirstTimeLogin() {
 				</Center>
 			</Stack>
 
-			<Modal size="6xl" isOpen={isOpen} onClose={onClose}>
+			<Modal size="6xl" isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={scrollBehavior} bg="#ffffffb5" isCentered={true}>
 				<ModalOverlay />
-				<ModalContent bg="#ffffffb5">
+
+				<ModalContent minWidth="fit-content" height="fit-content">
 					<ModalHeader>
-						<Highlight query="First Time Update Profile Information" styles={{ px: '2', py: '1', rounded: 'md', bg: 'green.100' }}>
-							First Time Update Profile Information
-						</Highlight>
+						<HStack display="flex" width="100%" gap="15px">
+							<Flex gap={3}>
+								<Box w="10px" bg="green.700" borderRadius="5px" />
+								First Time Update Profile Information
+							</Flex>
+						</HStack>
 					</ModalHeader>
+
 					<ModalCloseButton />
-					<ModalBody>
-						<ProfileSettings />
+
+					<ModalBody w="100%" h="100%">
+						<Box>
+							<ProfileSettings />
+						</Box>
 					</ModalBody>
-					<ModalFooter />
 				</ModalContent>
 			</Modal>
 		</>

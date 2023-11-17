@@ -5,7 +5,7 @@ import React from 'react';
 
 function Footer() {
 	return (
-		<Link to="https://localhost:44421/login">
+		<Link to="https://localhost:44421/sign-in">
 			<Flex height="80px" width="100vw" alignItems="center" justifyContent="center" gap="10px">
 				<ArrowBackIcon size="1.5rem" color="white" spacing="1rem" />
 				<Text color="white">Go to FlowDG</Text>

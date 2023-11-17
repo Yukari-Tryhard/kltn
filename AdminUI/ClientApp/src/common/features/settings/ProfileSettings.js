@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Flex, Heading, Stack, Text, Button, Spacer, Highlight, useToast, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Text, Button, Spacer, Highlight, useToast, useDisclosure, HStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -173,13 +173,7 @@ function ProfileSettings() {
 	else if (!isFirstTimeLogin && !isFetchingProfileDetail) {
 		return (
 			<Stack spacing={3} className="mt-4 ml-1">
-				<Flex
-					gap={8}
-					flexDirection={{
-						base: 'column',
-						xl: 'row'
-					}}
-				>
+				<Flex gap={[2, 4, 8]} flexDirection={['column', 'column', 'row']}>
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
@@ -208,9 +202,9 @@ function ProfileSettings() {
 						{(formik) => (
 							<>
 								<Stack bgColor="white" flex="1" border="0.5px solid #cfd3df" rounded="lg" as="form" shadow="2xl">
-									<Flex alignItems="center" justifyContent="center" gap="2" padding="4" bg="#00AF91" height="65px" borderRadius="10px 10px 0 0">
-										<Flex flex="8" alignItems="center" gap="2">
-											<Heading fontSize="xl" color="white" overflow="hidden" whiteSpace="nowrap">
+									<Flex alignItems="center" justifyContent="center" gap={[1, 2]} padding={[2, 4]} bg="#00AF91" height="65px" borderRadius="10px 10px 0 0">
+										<Flex flex="8" alignItems="center" gap={[1, 2]}>
+											<Heading fontSize={['md', 'lg', 'xl']} color="white" overflow="hidden" whiteSpace="nowrap">
 												Personal Information
 											</Heading>
 										</Flex>
@@ -221,12 +215,12 @@ function ProfileSettings() {
 											</Button>
 										</Flex>
 									</Flex>
-									<Stack spacing={2} p={4} px={8}>
-										<Flex gap={8} flexDirection={{ base: 'column', md: 'row' }}>
+									<Stack spacing={2} p={[2, 4]} px={[4, 8]}>
+										<Flex gap={[4, 8]} flexDirection={['column', 'column', 'row']}>
 											<FormTextField name="fullname" label="Full Name" placeholder="Enter your Full Name" leftIcon={<FaRegUserCircle color="#999" fontSize="1.1rem" />} />
 											<FormTextField name="phone" label="Phone number" type="text" placeholder="Enter your number" leftIcon={<AiFillPhone color="#999" fontSize="1.1rem" />} />
 										</Flex>
-										<Flex gap={8} flexDirection={{ base: 'column', md: 'row' }}>
+										<Flex gap={[4, 8]} flexDirection={['column', 'column', 'row']}>
 											<FormTextField name="dateOfBirth" isDateField={true} label="Birth Date" />
 											<FormTextField
 												name="gender"
@@ -240,7 +234,7 @@ function ProfileSettings() {
 												formik={formik}
 											/>
 										</Flex>
-										<Flex gap={8} flexDirection={{ base: 'column', md: 'row' }}>
+										<Flex gap={[4, 8]} flexDirection={['column', 'column', 'row']}>
 											<FormTextField name="email" label="Email" type="email" placeholder="abc@gmail.com" leftIcon={<MdOutlineAlternateEmail color="#999" fontSize="1.1rem" />} />
 										</Flex>
 										<FormTextField name="location" isAddress={true} formik={formik} />
@@ -261,27 +255,33 @@ function ProfileSettings() {
 						)}
 					</Formik>
 					<Stack bgColor="white" flex="1" border="0.5px solid #cfd3df" rounded="lg" shadow="2xl">
-						<Flex alignItems="center" justifyContent="center" gap="2" padding="4" bg="#00AF91" height="65px" borderRadius="10px 10px 0 0">
-							<Flex flex="8" alignItems="center" gap="2">
-								<Heading fontSize="xl" color="white" overflow="hidden" whiteSpace="nowrap">
+						<Flex alignItems="center" justifyContent="center" gap={[1, 2]} padding={[2, 4]} bg="#00AF91" height="65px" borderRadius="10px 10px 0 0">
+							<Flex flex="8" alignItems="center" gap={[1, 2]}>
+								<Heading fontSize={['md', 'lg', 'xl']} color="white" overflow="hidden" whiteSpace="nowrap">
 									Your Photo
 								</Heading>
 							</Flex>
 						</Flex>
-						<Flex flexDirection="column" p={4} px={8} gap={10}>
-							<Flex alignItems="center" flex={1} gap={3} py={2} flexDirection="column">
-								<Flex gap={4} flexDirection="row" alignItems="center" className="pb-4">
-									<AvatarWithPreview alt="avatar" altBoxSide="8px" className=" h-[120px] w-[120px] rounded-md" />
-									<Box display="flex" flexDirection="column" gap={1} fontSize="large">
-										<Text fontWeight="medium" fontSize="md">
-											Edit your photo
-										</Text>
-										<Button colorScheme="green" isDisabled={images?.length === 0} onClick={(e) => handleSaveUploadImages(e)}>
-											Save this photo
-										</Button>
-									</Box>
+						<Flex flexDirection="column" p={[2, 4]} px={[4, 8]} gap={[5, 10]}>
+							<Flex alignItems="center" flex={1} gap={[2, 3]} py={2} flexDirection="column">
+								{/* Photo */}
+								<Flex gap={[2, 4]} flexDirection="row" alignItems="center" className="pb-4">
+									<HStack spacing="24px">
+										<Box display="flex" gap={1} fontSize="large">
+											<AvatarWithPreview alt="avatar" altBoxSide="8px" className=" h-[120px] w-[120px] rounded-md" />
+										</Box>
+										<Box display="flex" flexDirection="column" gap={1} fontSize="large">
+											<Text fontWeight="medium" fontSize="md">
+												Edit your photo
+											</Text>
+											<Button colorScheme="green" isDisabled={images?.length === 0} onClick={(e) => handleSaveUploadImages(e)}>
+												Save this photo
+											</Button>
+										</Box>
+									</HStack>
 								</Flex>
-								<Box w={{ base: '100%', md: '80%' }} height="360px">
+								{/* Image Uploading */}
+								<Box w={['100%', '80%', '80%']} height="360px">
 									<ImagesUploading images={images} onChange={onChange} maxNumber={maxNumber} />
 								</Box>
 							</Flex>
