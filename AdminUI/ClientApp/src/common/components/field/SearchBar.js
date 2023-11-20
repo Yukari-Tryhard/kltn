@@ -14,7 +14,7 @@ function SearchBar({ searchText, styleClass, placeholderText, setSearchText }) {
 					<InputLeftElement pointerEvents="none">
 						<SearchIcon color="gray.300" />
 					</InputLeftElement>
-					<Input type="search" value={searchText} placeholder={placeholderText || 'Search for ...'} onChange={(e) => updateSearchInput(e.target.value)} />
+					<Input type="search" fontSize="xs" value={searchText} placeholder={placeholderText || 'Search for ...'} onChange={(e) => updateSearchInput(e.target.value)} />
 				</InputGroup>
 			</div>
 		</div>

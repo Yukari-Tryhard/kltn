@@ -27,13 +27,19 @@ function AccTable() {
 	const queryClient = useQueryClient();
 	const [editData, setEditData] = useState({});
 	const [deleteSingleData, setDeleteSingleData] = useState({});
+	const [switchStatusData, setSwitchStatusData] = useState({});
 	const [account, setAccounts] = useState(ACCOUNT_MANAGEMENT);
 	//* #endregion
 
 	//* #region hooks
-	const { data: listAccountData, isFetching: isFetchingListAccount, isLoading: isLoadingListAccount } = useGetListAccount();
+	const {
+		// data: listAccountData,
+		isFetching: isFetchingListAccount,
+		isLoading: isLoadingListAccount
+	} = useGetListAccount();
 	const { isOpen: isDeleteSingleOpen, onOpen: onDeleteSingleOpen, onClose: onDeleteSingleClose } = useDisclosure();
 	const { isOpen: isAddEditOpen, onOpen: onAddEditOpen, onClose: onAddEditClose } = useDisclosure();
+	const { isOpen: isSwitchStatusOpen, onOpen: onSwitchStatusOpen, onClose: onSwitchStatusClose } = useDisclosure();
 
 	const useCreateAccount = useMutation(accountService.createAccount, {
 		onSuccess: (data) => {
@@ -59,7 +65,7 @@ function AccTable() {
 		},
 		onError: (error) => {
 			toast({
-				title: error.response.data.message,
+				title: error.message,
 				position: 'bottom-right',
 				status: 'error',
 				isClosable: true,
@@ -91,7 +97,7 @@ function AccTable() {
 		},
 		onError: (error) => {
 			toast({
-				title: error.response.data.message,
+				title: error.message,
 				position: 'bottom-right',
 				status: 'error',
 				isClosable: true,
@@ -123,7 +129,7 @@ function AccTable() {
 		},
 		onError: (error) => {
 			toast({
-				title: error.response.data.message,
+				title: error.message,
 				position: 'bottom-right',
 				status: 'error',
 				isClosable: true,
@@ -155,7 +161,7 @@ function AccTable() {
 		},
 		onError: (error) => {
 			toast({
-				title: error.response.data.message,
+				title: error.message,
 				position: 'bottom-right',
 				status: 'error',
 				isClosable: true,
@@ -187,6 +193,11 @@ function AccTable() {
 		onAddEditOpen();
 		setEditData(row);
 	};
+	const closeDrawer = () => {
+		onAddEditClose();
+		setEditData({});
+	};
+
 	const deleteAccount = (row, action) => {
 		setDeleteSingleData(row);
 		onDeleteSingleOpen();
@@ -197,10 +208,19 @@ function AccTable() {
 		setDeleteSingleData({});
 		onDeleteSingleClose();
 	};
-	const closeDrawer = () => {
-		onAddEditClose();
-		setEditData({});
+
+	const switchStatusAccount = (row, action) => {
+		setSwitchStatusData(row);
+		console.log(switchStatusData);
+		onSwitchStatusOpen();
 	};
+	const handleSwitchStatus = () => {
+		console.log(switchStatusData);
+		useUpdateAccountStatus.mutate(switchStatusData.companyId);
+		setSwitchStatusData({});
+		onSwitchStatusClose();
+	};
+
 	const removeFilter = () => {
 		setAccounts(ACCOUNT_MANAGEMENT);
 	};
@@ -209,17 +229,6 @@ function AccTable() {
 			return t.companyName.toLowerCase().includes(value.toLowerCase());
 		});
 		setAccounts(filteredAccounts);
-	};
-	const updateAccountStatus = (index) => {
-		//let dashboard = account[index];
-		// setAccounts(
-		// 	account.map((account, idx) => {
-		// 		if (idx === index) return { ...account, active: !account.active };
-		// 		return account;
-		// 	})
-		// );
-		// dispatch(showNotification({ message: `${dashboard.companyName} ${dashboard.active ? 'is now Disabled' : 'is now Active'}`, status: 1 }));
-		useUpdateAccountStatus.mutate(account[index].id);
 	};
 	//* #endregion
 
@@ -241,33 +250,32 @@ function AccTable() {
 			{
 				Header: 'Id',
 				accessor: 'companyId',
-				haveSort: true,
 				hidden: true
 			},
 			{
 				Header: 'Name',
 				accessor: 'companyName',
-				haveSort: true
+				cellWidth: '140px'
 			},
 			{
 				Header: 'Email',
 				accessor: 'email',
-				haveSort: true
+				cellWidth: '140px'
 			},
 			{
 				Header: 'Address',
 				accessor: 'address',
-				haveSort: true
+				cellWidth: '220px'
 			},
 			{
 				Header: 'Phone Number',
 				accessor: 'phoneNumber',
-				haveSort: true
+				cellWidth: '150px'
 			},
 			{
 				Header: 'Active',
 				accessor: 'active',
-				haveSort: true
+				cellWidth: '50px'
 			}
 		],
 		[]
@@ -281,7 +289,7 @@ function AccTable() {
 			label: 'Company Name',
 			placeholder: 'Company Name',
 			isRequired: true,
-			leftIcon: <FaRegUserCircle color="#999" fontSize="1.2rem" />
+			leftIcon: <FaRegUserCircle color="#999" fontSize="1rem" />
 		},
 		{
 			name: 'email',
@@ -290,7 +298,7 @@ function AccTable() {
 			placeholder: 'Email address',
 			isRequired: true,
 			isReadOnly: Object.keys(editData).length === 0 ? false : true,
-			leftIcon: <MdOutlineAlternateEmail color="#999" fontSize="1.2rem" />
+			leftIcon: <MdOutlineAlternateEmail color="#999" fontSize="1rem" />
 		},
 		{
 			name: 'phoneNumber',
@@ -298,7 +306,7 @@ function AccTable() {
 			type: 'type',
 			placeholder: 'Phone Number',
 			isRequired: true,
-			leftIcon: <BsTelephone color="#999" fontSize="1.4rem" />
+			leftIcon: <BsTelephone color="#999" fontSize="1rem" />
 		},
 		{
 			isTextAreaField: true,
@@ -318,9 +326,9 @@ function AccTable() {
 			placeholder: 'Password',
 			isRequired: true,
 			isPassword: 'true',
-			leftIcon: <BsFillShieldLockFill color="#999" fontSize="1.2rem" />,
-			rightIcon: <BsEyeFill color="#999" fontSize="1.2rem" />,
-			hideIcon: <BsEyeSlashFill color="#999" fontSize="1.2rem" />
+			leftIcon: <BsFillShieldLockFill color="#999" fontSize="1rem" />,
+			rightIcon: <BsEyeFill color="#999" fontSize="1rem" />,
+			hideIcon: <BsEyeSlashFill color="#999" fontSize="1rem" />
 		},
 		{
 			name: 'confirmPassword',
@@ -329,9 +337,9 @@ function AccTable() {
 			placeholder: 'Confirm Password',
 			isPassword: 'true',
 			isRequired: true,
-			leftIcon: <BsFillShieldLockFill color="#999" fontSize="1.2rem" />,
-			rightIcon: <BsEyeFill color="#999" fontSize="1.2rem" />,
-			hideIcon: <BsEyeSlashFill color="#999" fontSize="1.2rem" />
+			leftIcon: <BsFillShieldLockFill color="#999" fontSize="1rem" />,
+			rightIcon: <BsEyeFill color="#999" fontSize="1rem" />,
+			hideIcon: <BsEyeSlashFill color="#999" fontSize="1rem" />
 		}
 	];
 
@@ -353,10 +361,10 @@ function AccTable() {
 	});
 	//* #endregion
 
-	if (isLoadingListAccount) return <LoadingSpinner />;
+	if (isFetchingListAccount) return <LoadingSpinner />;
 	return (
-		<TitleCard title="Accounts Management" topMargin="mt-2" TopSideButtons={<AccTopSideButtons applySearch={applySearch} removeFilter={removeFilter} onAddEditOpen={onAddEditOpen} />}>
-			{useCreateAccount.isLoading || useSaveAccount.isLoading || useDeleteAccount.isLoading || isFetchingListAccount ? (
+		<TitleCard title="Accounts Management" topMargin="mt-3" TopSideButtons={<AccTopSideButtons applySearch={applySearch} removeFilter={removeFilter} onAddEditOpen={onAddEditOpen} />}>
+			{useCreateAccount.isLoading || useSaveAccount.isLoading || useDeleteAccount.isLoading || isLoadingListAccount ? (
 				<LoadingSpinner />
 			) : (
 				<Box marginTop="0px !important">
@@ -364,7 +372,7 @@ function AccTable() {
 						// listAccountData?.result?.data
 						account && (
 							<DynamicTable
-								handleSwitchStatus={updateAccountStatus}
+								handleSwitchStatus={switchStatusAccount}
 								tableRowAction={tableRowAction}
 								columns={columns}
 								data={
@@ -386,6 +394,15 @@ function AccTable() {
 						drawerFieldData={Object.keys(editData).length === 0 ? drawerAddFieldData : drawerEditFieldData}
 					/>
 					<ChakraAlertDialog title="Delete Single" isOpen={isDeleteSingleOpen} onClose={onDeleteSingleClose} onAccept={handleAcceptDelete} />
+					<ChakraAlertDialog
+						isOpen={isSwitchStatusOpen}
+						onClose={onSwitchStatusClose}
+						onAccept={handleSwitchStatus}
+						acceptButtonColor="green"
+						acceptButtonLabel={`Confirm`}
+						message={`Are you sure you want to ${switchStatusData?.active === true ? 'disable' : 'enable'} this account?`}
+						title={`${switchStatusData?.active === true ? 'Disable' : 'Enable'} this account`}
+					/>
 				</Box>
 			)}
 		</TitleCard>
