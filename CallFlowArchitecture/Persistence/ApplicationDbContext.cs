@@ -9,10 +9,11 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
 using CallFlowApplication.Interface;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CallFlowArchitecture
 {
-    public class KLTNContext : DbContext, IApplicationDbContext
+    public class KLTNContext :IdentityDbContext<IdentityUser>, IApplicationDbContext
     {
         private readonly ILogger<KLTNContext> logger;
         public KLTNContext(DbContextOptions options ) : base(options)
@@ -29,7 +30,7 @@ namespace CallFlowArchitecture
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Trunk> Trunks { get; set; }
-
+        public virtual DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

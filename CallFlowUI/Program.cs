@@ -12,6 +12,12 @@ using Hangfire;
 using Hangfire.MySql;
 using CallFlowArchitecture.DataSeeder;
 using XAct;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using CallFlowUI.Module;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +43,43 @@ string? hangfireConnectionString = config.GetConnectionString("HangFireContext")
 // Configure the DbContext to use the "KLTNContext" connection string from the configuration file.
 builder.Services.AddDbContext<KLTNContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
+    options.Password.RequireUppercase = true; // on production add more secured options
+    options.Password.RequireDigit = true;
+    options.SignIn.RequireConfirmedEmail = true;
+}).AddEntityFrameworkStores<KLTNContext>().AddDefaultTokenProviders();
 
+builder.Services.AddAuthentication(x => {
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o => {
+    var Key = Encoding.UTF8.GetBytes(config["JWT:Key"]);
+    o.SaveToken = true;
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false, // on production make it true
+        ValidateAudience = false, // on production make it true
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = config["JWT:Issuer"],
+        ValidAudience = config["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Key),
+        ClockSkew = TimeSpan.Zero
+    };
+    o.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context => {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+            }
+            return Task.CompletedTask;
+        }
+    };
+});
+
+builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+builder.Services.AddScoped<IUserServiceRepository, UserServiceRepository>();
 builder.Services.AddScoped<IApplicationDbContext, KLTNContext>();
 builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 // Add Hangfire services
@@ -71,6 +113,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication(); // This need to be added before UseAuthorization()	
+app.UseAuthorization();
+app.UseOpenApi();
+app.UseSwaggerUi3();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseHangfireDashboard(); // Add Hangfire dashboard endpoint
 // Enable CORS policy
 app.UseCors(
@@ -78,8 +128,7 @@ app.UseCors(
             .AllowAnyMethod()
             .AllowAnyHeader()
   );
-app.UseOpenApi();
-app.UseSwaggerUi3();
+
 
 app.MapControllerRoute(
     name: "default",

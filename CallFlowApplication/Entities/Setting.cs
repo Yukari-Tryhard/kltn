@@ -8,6 +8,7 @@ namespace CallFlowApplication.Entities
 {
     public class Setting
     {
+        public int SettingId { get; set; }
         public bool IsLocal {  get; set; }
         public string AsteriskServerUrl { get; set; } = null!;
         public string AsteriskServerPort { get; set; } = null!;

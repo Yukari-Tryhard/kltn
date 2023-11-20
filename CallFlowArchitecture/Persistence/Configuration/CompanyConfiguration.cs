@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace CallFlowArchitecture.Persistence.Configuration
 {
-    public class CompanyConfiguration: IEntityTypeConfiguration<CallFlowUser>
+    public class CompanyConfiguration: IEntityTypeConfiguration<Company>
     {
-        public void Configure(EntityTypeBuilder<CallFlowUser> builder)
+        public void Configure(EntityTypeBuilder<Company> builder)
         {
             // Add configuration
-            
+            builder.HasKey(e => e.CompanyId);
         }
     }
 }

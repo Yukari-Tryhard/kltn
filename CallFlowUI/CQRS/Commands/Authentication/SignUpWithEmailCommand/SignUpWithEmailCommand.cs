@@ -26,7 +26,7 @@ namespace CallFlowUI.CQRS.Commands.Authentication.SignUpWithEmailCommand
                 var user = await _context.CallFlowUsers.Where(u => u.Email == request.email).DefaultIfEmpty(null).FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    CallFlowUser newUser = new CallFlowUser { Email = request.email, UserName = request.password, HasedPassword = request.password }; // need to implement HashingMoule
+                    CallFlowUser newUser = new CallFlowUser { Email = request.email, UserName = request.password, Password = request.password }; // need to implement HashingMoule
                     await _context.CallFlowUsers.AddAsync(newUser);
                     await _context.SaveChangesAsync(cancellationToken);
                     return new OkObjectResult("Created Successfully"); // Need DTO for this

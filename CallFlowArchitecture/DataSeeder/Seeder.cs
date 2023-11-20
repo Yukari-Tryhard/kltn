@@ -33,14 +33,13 @@ namespace CallFlowArchitecture.DataSeeder
                     new CallFlowUser
                     {
                         Email = "admin@callflow.com",
-                        HasedPassword = "Hello@123",
+                        Password = "Hello@123",
                         isActive = true,
                         UserName = "admin",
                         PersonalInfo = new PersonalInfo
                         {
                             PhoneNumber = "089999123",
                             Address = "123 Dang Van Bi",
-                            DateOfBirth = DateTime.Parse("23/4/2002").Date,
                             Gender = "Male",
                             FirstName = "Admin",
                             MiddleName = "Super",

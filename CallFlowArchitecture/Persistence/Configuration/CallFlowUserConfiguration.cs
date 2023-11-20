@@ -16,6 +16,9 @@ namespace CallFlowArchitecture.Persistence.Configuration
         {
             // Add configuration
             builder.HasKey(e => e.UserId);
+            builder.HasOne(e => e.PersonalInfo)
+                .WithOne(e => e.CallFlowUser)
+                .HasForeignKey<PersonalInfo>(e => e.UserId);
         }
     }
 }

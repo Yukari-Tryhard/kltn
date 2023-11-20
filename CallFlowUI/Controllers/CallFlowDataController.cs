@@ -1,13 +1,18 @@
 using CallFlowUI.CQRS.Commands.CallFlowData.AddCallFlowDataCommand;
 using CallFlowUI.CQRS.Queries.CallFlowData.AddCallFlowDataCommand;
+using CallFlowUI.Interface;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CallFlowUI.Controllers
 {
     public class CallFlowDataController : ApiControllerBase
-    {   
-
+    {
+        private readonly IJWTManagerRepository jWTManager;
+        private readonly IUserServiceRepository userServiceRepository;
+        public CallFlowDataController(IJWTManagerRepository jWTManager, IUserServiceRepository userServiceRepository) : base(jWTManager, userServiceRepository)
+        {
+        }
         [HttpPost]
         [Route("add-callflow-data")]
         public async Task<ActionResult> Add(AddCallFlowDataCommand command)

@@ -14,7 +14,7 @@ namespace CallFlowArchitecture.Persistence.Configuration
         public void Configure(EntityTypeBuilder<Trunk> builder)
         {
             // Add configuration
-            
+            builder.HasKey(e => e.TrunkId);
         }
     }
 }

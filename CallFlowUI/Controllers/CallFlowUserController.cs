@@ -1,11 +1,17 @@
 ﻿using CallFlowUI.CQRS.Commands.CallflowUser;
 using CallFlowUI.CQRS.Queries.CallFlowUser;
+using CallFlowUI.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CallFlowUI.Controllers
 {
     public class CallFlowUserController : ApiControllerBase
     {
+        private readonly IJWTManagerRepository jWTManager;
+        private readonly IUserServiceRepository userServiceRepository;
+        public CallFlowUserController(IJWTManagerRepository jWTManager, IUserServiceRepository userServiceRepository) : base(jWTManager, userServiceRepository)
+        {
+        }
 
         [HttpPost]
         [Route("add-callflow-user")]

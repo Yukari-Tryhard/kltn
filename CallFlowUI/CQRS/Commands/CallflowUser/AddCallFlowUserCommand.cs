@@ -32,7 +32,7 @@ namespace CallFlowUI.CQRS.Commands.CallflowUser
             {
                 Email = request.Email,
                 UserName = request.UserName,
-                HasedPassword = request.Password,
+                Password = request.Password,
                 isActive = request.IsActive,
                 role = request.role ?? Role.NormalUser,
             };

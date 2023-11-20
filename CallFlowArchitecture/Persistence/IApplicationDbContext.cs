@@ -14,7 +14,7 @@ namespace CallFlowArchitecture.Persistence
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Trunk> Trunks { get; set; }
-
+        public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 
