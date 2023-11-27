@@ -3,6 +3,7 @@ using CallFlowArchitecture;
 using CallFlowUI.Interface;
 using Microsoft.AspNetCore.Identity;
 using System;
+using XAct.Library.Settings;
 
 namespace CallFlowUI.Module
 {
@@ -42,22 +43,27 @@ namespace CallFlowUI.Module
             return _db.SaveChanges();
         }
 
-        public async Task<bool> IsValidUserAsync(CallFlowUser users)
+        public async Task<bool> IsValidUserAsync(string email, string password)
         {
-            var u = _userManager.Users.FirstOrDefault(o => o.UserName == users.UserName);
-            var result = await _userManager.CheckPasswordAsync(u, users.Password);
+            var u = _db.CallFlowUsers.FirstOrDefault(o => o.Email == email);
+            var result = u != null ? u.Password == password : false;
             return result;
 
         }
 
         public UserRefreshToken AddUserRefreshTokens(UserRefreshToken user)
         {
-            throw new NotImplementedException();
+            _db.UserRefreshTokens.Add(user);
+            return user;
         }
 
         public void DeleteUserRefreshTokens(string username, string refreshToken)
         {
-            throw new NotImplementedException();
+            var item = _db.UserRefreshTokens.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken);
+            if (item != null)
+            {
+                _db.UserRefreshTokens.Remove(item);
+            }
         }
     }
 }

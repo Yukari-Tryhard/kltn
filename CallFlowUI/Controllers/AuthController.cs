@@ -12,21 +12,25 @@ namespace CallFlowUI.Controllers
     [ApiController]
     public class AuthController : ApiControllerBase
     {
-        private readonly IJWTManagerRepository jWTManager;
-        private readonly IUserServiceRepository userServiceRepository;
+        private readonly IJWTManagerRepository _jWTManager;
+        private readonly IUserServiceRepository _userServiceRepository;
 
         public AuthController(IJWTManagerRepository jWTManager, IUserServiceRepository userServiceRepository) : base(jWTManager, userServiceRepository)
         {
+            _userServiceRepository = userServiceRepository;
+            _jWTManager = jWTManager;
         }
 
-        [HttpPost]
-        [Route("verify")]
-        public async Task<ActionResult> Verify(VerifyTokenQuery query)
-        {
-            return await Mediator.Send(query);
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[Route("verify")]
+        //public async Task<ActionResult> Verify(VerifyTokenQuery query)
+        //{
+        //    return await Mediator.Send(query);
+        //}
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("sign-up-email")]
         public async Task<ActionResult> SignUpWithEmail(SignUpWithEmailCommand query)
         {
@@ -37,18 +41,18 @@ namespace CallFlowUI.Controllers
         [Route("refresh")]
         public IActionResult Refresh(Token token)
         {
-            var principal = jWTManager.GetPrincipalFromExpiredToken(token.Access_Token);
+            var principal = _jWTManager.GetPrincipalFromExpiredToken(token.Access_Token);
             var username = principal.Identity?.Name;
 
             //retrieve the saved refresh token from database
-            var savedRefreshToken = userServiceRepository.GetSavedRefreshTokens(username, token.Refresh_Token);
+            var savedRefreshToken = _userServiceRepository.GetSavedRefreshTokens(username, token.Refresh_Token);
 
             if (savedRefreshToken.RefreshToken != token.Refresh_Token)
             {
                 return Unauthorized("Invalid attempt!");
             }
 
-            var newJwtToken = jWTManager.GenerateRefreshToken(username);
+            var newJwtToken = _jWTManager.GenerateRefreshToken(username);
 
             if (newJwtToken == null)
             {
@@ -62,9 +66,9 @@ namespace CallFlowUI.Controllers
                 UserName = username
             };
 
-            userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
-            userServiceRepository.AddUserRefreshTokens(obj);
-            userServiceRepository.SaveCommit();
+            _userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
+            _userServiceRepository.AddUserRefreshTokens(obj);
+            _userServiceRepository.SaveCommit();
 
             return Ok(newJwtToken);
         }
@@ -72,16 +76,16 @@ namespace CallFlowUI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("authenticate")]
-        public async Task<IActionResult> AuthenticateAsync(CallFlowUser usersdata)
+        public async Task<IActionResult> AuthenticateAsync(string username, string password)
         {
-            var validUser = await userServiceRepository.IsValidUserAsync(usersdata);
+            var validUser = await this._userServiceRepository.IsValidUserAsync(username, password );
 
             if (!validUser)
             {
                 return Unauthorized("Incorrect username or password!");
             }
 
-            var token = jWTManager.GenerateToken(usersdata.UserName);
+            var token = _jWTManager.GenerateToken(username);
 
             if (token == null)
             {
@@ -92,11 +96,11 @@ namespace CallFlowUI.Controllers
             UserRefreshToken obj = new UserRefreshToken
             {
                 RefreshToken = token.Refresh_Token,
-                UserName = usersdata.UserName
+                UserName = username
             };
 
-            userServiceRepository.AddUserRefreshTokens(obj);
-            userServiceRepository.SaveCommit();
+            _userServiceRepository.AddUserRefreshTokens(obj);
+            _userServiceRepository.SaveCommit();
             return Ok(token);
         }
     }
