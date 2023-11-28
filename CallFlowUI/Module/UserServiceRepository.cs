@@ -9,12 +9,10 @@ namespace CallFlowUI.Module
 {
     public class UserServiceRepository : IUserServiceRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly KLTNContext _db;
 
-        public UserServiceRepository(UserManager<IdentityUser> userManager, KLTNContext db)
+        public UserServiceRepository(KLTNContext db)
         {
-            this._userManager = userManager;
             this._db = db;
         }
 

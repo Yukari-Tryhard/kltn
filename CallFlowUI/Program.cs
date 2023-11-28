@@ -18,13 +18,28 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
 using CallFlowUI.Module;
+using NSwag.Generation.Processors.Security;
+using NSwag;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSwaggerDocument(configure => configure.Title = "Call Flow API and Models");
+builder.Services.AddSwaggerDocument(configure => {
+    configure.Title = "Call Flow API and Models";
+    configure.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT Token"));
+    configure.AddSecurity("JWT Token", Enumerable.Empty<string>(),
+        new OpenApiSecurityScheme()
+        {
+            Type = OpenApiSecuritySchemeType.ApiKey,
+            Name = "Authorization",
+            In = OpenApiSecurityApiKeyLocation.Header,
+            Description = "Copy this into the value field: Bearer {token}"
+        }
+    );
+}
+);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 // Add the Hangfire services
 

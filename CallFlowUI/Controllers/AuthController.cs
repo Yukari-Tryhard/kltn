@@ -22,7 +22,6 @@ namespace CallFlowUI.Controllers
         }
 
         //[HttpPost]
-        //[AllowAnonymous]
         //[Route("verify")]
         //public async Task<ActionResult> Verify(VerifyTokenQuery query)
         //{
